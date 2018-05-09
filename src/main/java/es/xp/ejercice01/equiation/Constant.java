@@ -7,13 +7,18 @@ public class Constant extends Term {
 	}
 
 	@Override
-	protected Constant clone() {
+	public boolean equal(Term term) {
+		return super.equal(this);
+	}
+
+	@Override
+	public Constant clone() {
 		return new Constant(this.getValue());
 	}
 
 	@Override
-	void dispatch(TermVisitor visitor) {
+	public void dispatch(TermVisitor visitor) {
 		visitor.visit(this);
 	}
-	
+
 }

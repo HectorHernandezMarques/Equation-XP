@@ -2,31 +2,31 @@ package es.xp.ejercice01.equiation;
 
 import java.util.Set;
 
-public class Variable extends Term{
+public class Variable extends Term {
 	private String name;
 
 	public Variable(float value, String name) {
 		super(value);
 		this.name = name;
 	}
-	
-	public String getName() {	
+
+	public String getName() {
 		return this.name;
 	}
-	
+
 	@Override
 	public boolean hasName(String name) {
 		return this.name.equals(name);
 	}
-	
+
 	@Override
 	public boolean hasName(Set<String> names) {
 		return names.contains(this.name);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(!super.equals(obj))
+		if (!super.equals(obj))
 			return false;
 		Variable other = (Variable) obj;
 		if (name == null) {
@@ -38,8 +38,13 @@ public class Variable extends Term{
 	}
 
 	@Override
-	protected Variable clone(){
-		return new Variable(this.getValue(),this.name);
+	public boolean equal(Term term) {
+		return super.equal(term) && term.hasName(this.name);
+	}
+
+	@Override
+	public Variable clone() {
+		return new Variable(this.getValue(), this.name);
 	}
 
 	@Override
@@ -48,7 +53,7 @@ public class Variable extends Term{
 	}
 
 	@Override
-	void dispatch(TermVisitor visitor) {
+	public void dispatch(TermVisitor visitor) {
 		visitor.visit(this);
 	}
 

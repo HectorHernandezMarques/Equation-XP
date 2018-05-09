@@ -10,6 +10,10 @@ public abstract class Term {
 		this.value = value;
 	}
 
+	public float getValue() {
+		return value;
+	}
+
 	public void multiply(float value) {
 		this.value *= value;
 	}
@@ -20,11 +24,6 @@ public abstract class Term {
 
 	public boolean hasName(Set<String> string) {
 		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "" + value;
 	}
 
 	@Override
@@ -41,10 +40,18 @@ public abstract class Term {
 		return true;
 	}
 
-	public float getValue() {
-		return value;
+	public boolean equal(Term term) {
+		return term.value == this.value;
 	}
 
-	abstract void dispatch(TermVisitor visitor);
+	@Override
+	abstract public Term clone();
+
+	@Override
+	public String toString() {
+		return "" + value;
+	}
+
+	abstract public void dispatch(TermVisitor visitor);
 
 }
