@@ -1,11 +1,8 @@
 package es.xp.ejercice01.equiation;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,8 +10,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class ExpressionTest {
 
+	ExpressionBuilder expressionBuilder;
+
 	@Test
 	void addTermTest() {
+
 		Expression expSUT = create3Expression();
 		assertEquals(6, expSUT.getValue(), 0.001);
 		assertEquals(5, expSUT.getValue("x"), 0.001);
@@ -35,6 +35,28 @@ public class ExpressionTest {
 		assertEquals(10, expSUT.getValue("y"), 0.001);
 	}
 
+	@ParameterizedTest
+	@ValueSource(floats = { 5, 10 })
+	void multiplyTest(float value) {
+		Expression expSUT = create3Expression();
+		expSUT.multiply(value);
+		assertEquals(6 * value, expSUT.getValue(), 0.001);
+		assertEquals(5 * value, expSUT.getValue("x"), 0.001);
+		assertEquals(4 * value, expSUT.getValue("y"), 0.001);
+
+	}
+
+	@Test
+	void simplifyTest() {
+		this.expressionBuilder = new ExpressionBuilder();
+		Expression expSUT = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x")).build();
+		Expression result = this.expressionBuilder.add(new Variable(5, "x")).build();
+
+		expSUT.simplify("x");
+		//assertTrue(expSUT.equals(result));
+		assertEquals(result, expSUT);
+	}
+
 	private Expression create3Expression() {
 		Term term00 = new Constant(1);
 		Term term01 = new Constant(5);
@@ -48,17 +70,6 @@ public class ExpressionTest {
 		expSUT.add(term12);
 		expSUT.add(term2);
 		return expSUT;
-	}
-
-	@ParameterizedTest
-	@ValueSource(floats = { 5, 10 })
-	void multiplyTest(float value) {
-		Expression expSUT = create3Expression();
-		expSUT.multiply(value);
-		assertEquals(6 * value, expSUT.getValue(), 0.001);
-		assertEquals(5 * value, expSUT.getValue("x"), 0.001);
-		assertEquals(4 * value, expSUT.getValue("y"), 0.001);
-
 	}
 
 	@Test

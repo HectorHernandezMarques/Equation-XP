@@ -16,10 +16,7 @@ public class Expression {
 	}
 
 	public void add(Expression expression) {
-		for (String name: expression.getNameSet()) {
-			this.add(new Variable(expression.getValue(name), name));
-		}
-		this.add(new Constant(expression.getValue()));
+		this.terms.addAll(expression.terms);
 	}
 
 	public void multiply(float value) {
@@ -43,7 +40,7 @@ public class Expression {
 
 	public void simplify(String name) {
 		List<Term> listAux = new ArrayList<Term>();
-		for (Term term : listAux) {
+		for (Term term : this.terms) {
 			if (!term.hasName(name))
 				listAux.add(term);
 		}
@@ -75,9 +72,26 @@ public class Expression {
 	public Set<String> getNameSet() {
 		return new NamesExpresionAnalyzer(this.terms).getNameSet();
 	}
-	
+
 	public boolean hasName(String name) {
 		return this.getNameSet().contains(name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Expression other = (Expression) obj;
+		if (terms == null) {
+			if (other.terms != null)
+				return false;
+		} else if (!terms.equals(other.terms))
+			return false;
+		return true;
 	}
 
 	@Override
@@ -91,18 +105,17 @@ public class Expression {
 	public String toString() {
 		String result = "";
 		for (Term term : this.terms) {
-			if(term.getValue() < 0) {
+			if (term.getValue() < 0) {
 				result += "-";
-			}
-			else {
+			} else {
 				result += "+";
 			}
 			result += term.getValue();
-			if(term.hasName(this.getNameSet())) {
+			if (term.hasName(this.getNameSet())) {
 				result += ((Variable) term).getName();
 			}
 		}
 		return result;
 	}
-	
+
 }

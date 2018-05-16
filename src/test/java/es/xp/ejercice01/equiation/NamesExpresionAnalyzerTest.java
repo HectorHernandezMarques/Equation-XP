@@ -1,4 +1,5 @@
 package es.xp.ejercice01.equiation;
+
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -16,11 +17,12 @@ public class NamesExpresionAnalyzerTest {
 		Variable variable1 = new Variable(value, "x");
 		Variable variable2 = new Variable(value, "y");
 		List<Term> list = new ArrayList<Term>();
-		list.add(variable1); list.add(variable2); list.add(constant1);
+		list.add(variable1);
+		list.add(variable2);
+		list.add(constant1);
 		NamesExpresionAnalyzer neaSUT = new NamesExpresionAnalyzer(list);
-		
-		assertThat(neaSUT.getNameSet()).containsExactlyInAnyOrder("x","y"," ");
+
+		assertThat(neaSUT.getNameSet()).containsExactlyInAnyOrder("x", "y", " ");
 	}
 
-	
 }

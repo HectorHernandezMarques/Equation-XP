@@ -11,22 +11,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class TermTest {
-	
+
 	@ParameterizedTest
 	@ValueSource(floats = { 5, 10 })
 	public void multiplyBy10Test(float value) {
 		Term term = new Constant(value);
 		term.multiply(10);
-		
-		assertEquals(new Constant(10*value), term);
+
+		assertEquals(new Constant(10 * value), term);
 	}
-	
+
 	@Test
 	public void hasNameTest() {
 		Term term = new Constant(5);
 		assertFalse(term.hasName("x"));
-	}	
-	
+	}
+
 	@Test
 	public void hasSetNameTest() {
 		Term term = new Constant(5);
@@ -34,7 +34,7 @@ public class TermTest {
 		names.add("x");
 		assertFalse(term.hasName(names));
 	}
-	
+
 	@Test
 	public void equalTest() {
 		Term term = new Constant(5);
@@ -46,7 +46,5 @@ public class TermTest {
 		Term term = new Constant(5);
 		assertEquals("5.0", term.toString());
 	}
-	
-	
-	
+
 }
