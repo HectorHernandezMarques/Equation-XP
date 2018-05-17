@@ -48,12 +48,24 @@ public class ExpressionTest {
 	}
 
 	@Test
-	void simplifyTest() {
+	void simplifyVariableTest() {
 		this.expressionBuilder = new ExpressionBuilder();
 		Expression expSUT = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x")).build();
 		Expression result = this.expressionBuilder.add(new Variable(5, "x")).build();
 
+		assertNotEquals(result, expSUT);
 		expSUT.simplify("x");
+		assertEquals(result, expSUT);
+	}
+	
+	@Test
+	void simplifyConstantTest() {
+		this.expressionBuilder = new ExpressionBuilder();
+		Expression expSUT = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x")).add(new Constant(4)).add(new Constant(2)).build();
+		Expression result = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x")).add(new Constant(6)).build();
+
+		assertNotEquals(result, expSUT);
+		expSUT.simplify();
 		assertEquals(result, expSUT);
 	}
 

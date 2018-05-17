@@ -7,6 +7,10 @@ import java.util.Set;
 public class Expression {
 	private List<Term> terms;
 
+	private boolean empty() {
+		return this.terms.size() == 0;
+	}
+	
 	public Expression() {
 		this.terms = new ArrayList<Term>();
 	}
@@ -33,9 +37,12 @@ public class Expression {
 		float value = 0;
 		NamesExpresionAnalyzer analyzer = new NamesExpresionAnalyzer(this.terms);
 		List<Term> listAux = new ArrayList<Term>();
-		for (Term term : listAux) {
+		for (Term term : this.terms) {
 			if (!term.hasName(analyzer.getNameSet())) {
 				value += term.getValue();
+			}
+			else {
+				listAux.add(term);
 			}
 		}
 		listAux.add(new Constant(value));
