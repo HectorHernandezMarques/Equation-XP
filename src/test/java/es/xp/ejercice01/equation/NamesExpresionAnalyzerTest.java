@@ -1,4 +1,4 @@
-package es.xp.ejercice01.equiation;
+package es.xp.ejercice01.equation;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -7,6 +7,11 @@ import java.util.List;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import es.xp.ejercice01.equation.Constant;
+import es.xp.ejercice01.equation.NamesExpresionAnalyzer;
+import es.xp.ejercice01.equation.Term;
+import es.xp.ejercice01.equation.Variable;
 
 public class NamesExpresionAnalyzerTest {
 

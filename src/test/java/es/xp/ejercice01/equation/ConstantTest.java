@@ -1,9 +1,11 @@
-package es.xp.ejercice01.equiation;
+package es.xp.ejercice01.equation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import es.xp.ejercice01.equation.Constant;
 
 class ConstantTest {
 
@@ -18,10 +20,9 @@ class ConstantTest {
 	@ParameterizedTest
 	@ValueSource(floats = { 5, 10 })
 	void equalsTest(float value) {
-		Constant constant1 = new Constant(value);
-		Constant constant2 = new Constant(value);
+		Constant constant = new Constant(value);
 		
-		assertEquals(constant1, constant2);
+		assertEquals(new Constant(value), constant);
 	}
 
 	@ParameterizedTest
@@ -32,6 +33,9 @@ class ConstantTest {
 		
 		assertFalse(constant1 == constant2);
 		assertEquals(constant1, constant2);
+		constant1.multiply(5);
+
+		assertNotEquals(constant1, constant2);
 	}
 	
 }

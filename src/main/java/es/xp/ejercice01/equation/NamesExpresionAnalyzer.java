@@ -1,4 +1,4 @@
-package es.xp.ejercice01.equiation;
+package es.xp.ejercice01.equation;
 
 import java.util.HashSet;
 import java.util.List;

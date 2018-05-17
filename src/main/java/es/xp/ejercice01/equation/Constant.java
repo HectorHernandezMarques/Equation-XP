@@ -1,4 +1,4 @@
-package es.xp.ejercice01.equiation;
+package es.xp.ejercice01.equation;
 
 public class Constant extends Term {
 

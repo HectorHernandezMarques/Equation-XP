@@ -1,4 +1,4 @@
-package es.xp.ejercice01.equiation;
+package es.xp.ejercice01.equation;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,9 +30,9 @@ public class Equation {
 		}
 	}
 	
-	public void add(Equation ekuation) {
-		this.expressions.get(Side.LEFT).add(ekuation.expressions.get(Side.LEFT));
-		this.expressions.get(Side.RIGHT).add(ekuation.expressions.get(Side.RIGHT));
+	public void add(Equation equation) {
+		this.expressions.get(Side.LEFT).add(equation.expressions.get(Side.LEFT));
+		this.expressions.get(Side.RIGHT).add(equation.expressions.get(Side.RIGHT));
 	}
 	
 	public void multiply(float value) {

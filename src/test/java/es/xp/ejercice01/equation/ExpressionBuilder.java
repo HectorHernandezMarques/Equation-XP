@@ -1,35 +1,33 @@
-package es.xp.ejercice01.equiation;
+package es.xp.ejercice01.equation;
 
 import java.util.List;
 
 public class ExpressionBuilder {
-	private Expression exp;
+	private Expression expression;
 
 	public ExpressionBuilder() {
-		this.exp = new Expression();
+		this.expression = new Expression();
 	}
 
-	public ExpressionBuilder add(Expression expression) {
-		exp.add(expression);
+	public ExpressionBuilder add(Expression Expression) {
+		this.expression.add(Expression);
 		return this;
 	}
 
 	public ExpressionBuilder add(Term term) {
-		exp.add(term);
+		this.expression.add(term);
 		return this;
 	}
 
 	public ExpressionBuilder add(List<Term> terms) {
 		for (Term term : terms) {
-			exp.add(term);
+			this.expression.add(term);
 		}
 		return this;
 	}
 
 	public Expression build() {
-		Expression result = exp.clone();
-		exp = new Expression();
-		return result;
+		return this.expression.clone();
 	}
 
 }

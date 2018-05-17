@@ -1,4 +1,4 @@
-package es.xp.ejercice01.equiation;
+package es.xp.ejercice01.equation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -8,9 +8,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import es.xp.ejercice01.equation.Constant;
+import es.xp.ejercice01.equation.Equation;
+import es.xp.ejercice01.equation.Expression;
+import es.xp.ejercice01.equation.Side;
+import es.xp.ejercice01.equation.Variable;
+
 class EquationTest {
 
 	ExpressionBuilder expressionBuilder;
+	EquationBuilder equationBuilder;
 	
 	@Test
 	void addTermTest() {
