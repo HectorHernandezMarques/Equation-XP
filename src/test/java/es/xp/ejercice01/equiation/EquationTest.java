@@ -14,57 +14,119 @@ class EquationTest {
 	
 	@Test
 	void addTermTest() {
-		Ekuation
-		assertEquals(6, expSUT.getValue(), 0.001);
-		assertEquals(5, expSUT.getValue("x"), 0.001);
-		assertEquals(4, expSUT.getValue("y"), 0.001);
-
+		Equation equation = new Equation();
+		equation.add(new Variable(5, "x"));
+		equation.add(new Variable(6, "y"));
+		equation.add(new Constant(5));
+		assertEquals("+5.0x+6.0y+5.0=+5.0x+6.0y+5.0",equation.toString());
+	}
+	
+	@Test
+	void addSideTermTest() {
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		assertEquals("+6.0y=+5.0x",equation.toString());
 	}
 
 	@Test
-	void addExpressionTest() {
-		Expression expSUT = create3Expression();
-		Term term = new Variable(6, "y");
-		Expression expAux = new Expression();
-		expAux.add(term);
-		expSUT.add(expAux);
-
-		assertEquals(6, expSUT.getValue(), 0.001);
-		assertEquals(5, expSUT.getValue("x"), 0.001);
-		assertEquals(10, expSUT.getValue("y"), 0.001);
+	void addEquationTest() {
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		Equation equation2 = new Equation();
+		equation2.add(new Variable(5, "x"));
+		equation2.add(new Variable(6, "y"));
+		equation2.add(new Constant(5));
+		
+		equation.add(equation2);
+		assertEquals("+6.0y+5.0x+6.0y+5.0=+5.0x+5.0x+6.0y+5.0",equation.toString());
 	}
 
 	@ParameterizedTest
 	@ValueSource(floats = { 5, 10 })
 	void multiplyTest(float value) {
-		Expression expSUT = create3Expression();
-		expSUT.multiply(value);
-		assertEquals(6 * value, expSUT.getValue(), 0.001);
-		assertEquals(5 * value, expSUT.getValue("x"), 0.001);
-		assertEquals(4 * value, expSUT.getValue("y"), 0.001);
+		Equation equation = new Equation();
+		equation.add(new Variable(5, "x"));
+		equation.add(new Variable(6, "y"));
+		equation.add(new Constant(5));
 
+		Equation equation2 = new Equation();
+		equation2.add(new Variable(5*value, "x"));
+		equation2.add(new Variable(6*value, "y"));
+		equation2.add(new Constant(5*value));
+		
+		equation.multiply(value);
+		
+		assertEquals(equation.toString(),equation2.toString());
 	}
 
 	@Test
+	void getVariableValue() {
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "x"));
+		equation.add(Side.LEFT, new Variable(7, "y"));
+		equation.add(Side.LEFT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		equation.add(Side.RIGHT, new Variable(1, "x"));
+		equation.add(Side.RIGHT, new Constant(2));
+		equation.add(Side.RIGHT, new Constant(5));
+		
+		assertEquals(9, equation.getValue(Side.LEFT, "y"), 0.001);
+		assertEquals(6, equation.getValue(Side.RIGHT, "x"), 0.001);
+	}
+	
+	@Test
+	void getConstantValue() {
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "x"));
+		equation.add(Side.LEFT, new Variable(7, "y"));
+		equation.add(Side.LEFT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		equation.add(Side.RIGHT, new Variable(1, "x"));
+		equation.add(Side.RIGHT, new Constant(2));
+		equation.add(Side.RIGHT, new Constant(5));
+		
+		assertEquals(7, equation.getValue(Side.RIGHT), 0.001);
+	}
+	
+	@Test
 	void simplifyVariableTest() {
-		this.expressionBuilder = new ExpressionBuilder();
-		Expression expSUT = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x")).build();
-		Expression result = this.expressionBuilder.add(new Variable(5, "x")).build();
-
-		assertNotEquals(result, expSUT);
-		expSUT.simplify("x");
-		assertEquals(result, expSUT);
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "x"));
+		equation.add(Side.LEFT, new Variable(7, "y"));
+		equation.add(Side.LEFT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		equation.add(Side.RIGHT, new Variable(1, "x"));
+		equation.add(Side.RIGHT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Constant(2));
+		equation.add(Side.RIGHT, new Constant(5));
+		
+		equation.simplify(Side.LEFT, "x");
+		equation.simplify(Side.RIGHT, "y");
+		
+		assertEquals("+7.0y+2.0y+6.0x=+5.0x+1.0x+2.0+5.0+2.0y", equation.toString());
+		
+		equation.simplify(Side.RIGHT, "x");
+		equation.simplify(Side.LEFT, "y");
+		
+		assertEquals("+6.0x+9.0y=+2.0+5.0+2.0y+6.0x", equation.toString());
 	}
 	
 	@Test
 	void simplifyConstantTest() {
-		this.expressionBuilder = new ExpressionBuilder();
-		Expression expSUT = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x")).add(new Constant(4)).add(new Constant(2)).build();
-		Expression result = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x")).add(new Constant(6)).build();
-
-		assertNotEquals(result, expSUT);
-		expSUT.simplify();
-		assertEquals(result, expSUT);
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "x"));
+		equation.add(Side.LEFT, new Variable(7, "y"));
+		equation.add(Side.LEFT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		equation.add(Side.RIGHT, new Variable(1, "x"));
+		equation.add(Side.RIGHT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Constant(2));
+		equation.add(Side.RIGHT, new Constant(5));
+		
+		equation.simplify(Side.LEFT);
+		assertEquals("+6.0x+7.0y+2.0y=+5.0x+1.0x+2.0y+2.0+5.0", equation.toString());
 	}
 
 	private Expression createExpression() {
@@ -78,18 +140,53 @@ class EquationTest {
 
 	@Test
 	void cloneTest() {
-		Expression expSUT = create3Expression();
-		Expression expAux = expSUT.clone();
-		assertEquals(expSUT, expAux);
-		assertFalse(expSUT == expAux);
-		expAux.multiply(5);
-		assertNotEquals(expSUT, expAux);
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "x"));
+		equation.add(Side.LEFT, new Variable(7, "y"));
+		equation.add(Side.LEFT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		equation.add(Side.RIGHT, new Variable(1, "x"));
+		equation.add(Side.RIGHT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Constant(2));
+		equation.add(Side.RIGHT, new Constant(5));
+		
+		Equation equationClon = equation.clone();
+		assertEquals(equation, equationClon);
+		assertFalse(equation == equationClon);
+		equation.multiply(5);
+		assertNotEquals(equation, equationClon);
 	}
 
 	@Test
 	void toStringTest() {
-		Expression expSUT = create3Expression();
-		assertEquals("+1.0+5.0+2.0x+3.0x+4.0y", expSUT.toString());
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "x"));
+		equation.add(Side.LEFT, new Variable(7, "y"));
+		equation.add(Side.LEFT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		equation.add(Side.RIGHT, new Variable(1, "x"));
+		equation.add(Side.RIGHT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Constant(2));
+		equation.add(Side.RIGHT, new Constant(5));
+		
+		assertEquals("+6.0x+7.0y+2.0y=+5.0x+1.0x+2.0y+2.0+5.0", equation.toString());
+	}
+	
+	@Test
+	void invertionTest() {
+		Equation equation = new Equation();
+		equation.add(Side.LEFT, new Variable(6, "x"));
+		equation.add(Side.LEFT, new Variable(7, "y"));
+		equation.add(Side.LEFT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Variable(5, "x"));
+		equation.add(Side.RIGHT, new Variable(1, "x"));
+		equation.add(Side.RIGHT, new Variable(2, "y"));
+		equation.add(Side.RIGHT, new Constant(2));
+		equation.add(Side.RIGHT, new Constant(5));
+		
+		equation.invert();
+		
+		assertEquals("-6.0x-7.0y-2.0y=-5.0x-1.0x-2.0y-2.0-5.0", equation.toString());
 	}
 
 }

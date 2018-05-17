@@ -44,7 +44,7 @@ public class Variable extends Term {
 
 	@Override
 	public Variable clone() {
-		return new Variable(this.getValue(), this.name);
+		return new Variable(this.getValue(), new String(this.name));
 	}
 
 	@Override

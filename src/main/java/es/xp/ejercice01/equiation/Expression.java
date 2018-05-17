@@ -10,13 +10,13 @@ public class Expression {
 	private boolean empty() {
 		return this.terms.size() == 0;
 	}
-	
+
 	public Expression() {
 		this.terms = new ArrayList<Term>();
 	}
 
 	public void add(Term term) {
-		this.terms.add(term);
+		this.terms.add(term.clone());
 	}
 
 	public void add(Expression expression) {
@@ -40,8 +40,7 @@ public class Expression {
 		for (Term term : this.terms) {
 			if (!term.hasName(analyzer.getNameSet())) {
 				value += term.getValue();
-			}
-			else {
+			} else {
 				listAux.add(term);
 			}
 		}
@@ -116,14 +115,16 @@ public class Expression {
 	public String toString() {
 		String result = "";
 		for (Term term : this.terms) {
-			if (term.getValue() < 0) {
-				result += "-";
-			} else {
-				result += "+";
-			}
-			result += term.getValue();
-			if (term.hasName(this.getNameSet())) {
-				result += ((Variable) term).getName();
+			if (term.getValue() != 0) {
+				if (term.getValue() < 0) {
+					result += "";
+				} else {
+					result += "+";
+				}
+				result += term.getValue();
+				if (term.hasName(this.getNameSet())) {
+					result += ((Variable) term).getName();
+				}
 			}
 		}
 		return result;
