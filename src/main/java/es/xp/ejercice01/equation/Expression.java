@@ -44,7 +44,9 @@ public class Expression {
 				listAux.add(term);
 			}
 		}
-		listAux.add(new Constant(value));
+		if (value != 0) {
+			listAux.add(new Constant(value));
+		}
 		this.terms = listAux;
 	}
 
@@ -54,7 +56,9 @@ public class Expression {
 			if (!term.hasName(name))
 				listAux.add(term);
 		}
-		listAux.add(new Variable(this.getValue(name), name));
+		if (this.getValue(name) != 0) {
+			listAux.add(new Variable(this.getValue(name), name));
+		}
 		this.terms = listAux;
 	}
 

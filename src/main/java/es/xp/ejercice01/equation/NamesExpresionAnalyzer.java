@@ -8,15 +8,14 @@ public class NamesExpresionAnalyzer implements TermVisitor{
 	private Set<String> names;
 	
 	public NamesExpresionAnalyzer(List<Term> list) {
-		names = new HashSet<String>();
+		this.names = new HashSet<String>();
 		for (Term term : list) {
 			term.dispatch(this);
 		}
 	}
 
 	public void visit(Variable variable) {
-		names.add(variable.getName());
-		
+		this.names.add(variable.getName());
 	}
 
 	public void visit(Constant constant) {

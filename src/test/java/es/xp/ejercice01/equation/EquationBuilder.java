@@ -9,11 +9,6 @@ public class EquationBuilder {
 		this.equation = new Equation();
 	}
 
-	public EquationBuilder add(Equation equation) {
-		this.equation.add(equation);
-		return this;
-	}
-
 	public EquationBuilder add(Term term) {
 		this.equation.add(term);
 		return this;
@@ -35,6 +30,11 @@ public class EquationBuilder {
 		for (Term term : terms) {
 			this.equation.add(side, term);
 		}
+		return this;
+	}
+
+	public EquationBuilder add(Equation equation) {
+		this.equation.add(equation);
 		return this;
 	}
 

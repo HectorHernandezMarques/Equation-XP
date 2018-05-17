@@ -25,8 +25,8 @@ public class Equation {
 	}
 	
 	public void add(Term term) {
-		for (Entry<Side, Expression> expression : this.expressions.entrySet()) {
-			expression.getValue().add(term);
+		for (Expression expression : this.expressions.values()) {
+			expression.add(term);
 		}
 	}
 	
@@ -36,8 +36,8 @@ public class Equation {
 	}
 	
 	public void multiply(float value) {
-		for (Entry<Side, Expression> expression : this.expressions.entrySet()) {
-			expression.getValue().multiply(value);
+		for (Expression expression : this.expressions.values()) {
+			expression.multiply(value);
 		}
 	}
 	
@@ -59,8 +59,8 @@ public class Equation {
 	
 	public Set<String> getNameSet() {
 		Set<String> result = new HashSet<String>();
-		for (Entry<Side, Expression> expression : this.expressions.entrySet()) {
-			result.addAll(expression.getValue().getNameSet());
+		for (Expression expression : this.expressions.values()) {
+			result.addAll(expression.getNameSet());
 		}
 		return result;
 	}
