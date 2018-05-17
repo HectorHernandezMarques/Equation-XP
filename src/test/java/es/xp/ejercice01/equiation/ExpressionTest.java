@@ -3,6 +3,7 @@ package es.xp.ejercice01.equiation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,7 +54,6 @@ public class ExpressionTest {
 		Expression result = this.expressionBuilder.add(new Variable(5, "x")).build();
 
 		expSUT.simplify("x");
-		//assertTrue(expSUT.equals(result));
 		assertEquals(result, expSUT);
 	}
 
@@ -78,6 +78,8 @@ public class ExpressionTest {
 		Expression expAux = expSUT.clone();
 		assertEquals(expSUT, expAux);
 		assertFalse(expSUT == expAux);
+		expAux.multiply(5);
+		assertNotEquals(expSUT, expAux);
 	}
 
 	@Test

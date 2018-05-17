@@ -22,7 +22,7 @@ public class NamesExpresionAnalyzerTest {
 		list.add(constant1);
 		NamesExpresionAnalyzer neaSUT = new NamesExpresionAnalyzer(list);
 
-		assertThat(neaSUT.getNameSet()).containsExactlyInAnyOrder("x", "y", " ");
+		assertThat(neaSUT.getNameSet()).containsExactlyInAnyOrder("x", "y");
 	}
 
 }

@@ -16,7 +16,11 @@ public class Expression {
 	}
 
 	public void add(Expression expression) {
-		this.terms.addAll(expression.terms);
+		List<Term> contentCopy = new ArrayList<Term>();
+		for (Term term : expression.terms) {
+			contentCopy.add(term.clone());
+		}
+		this.terms.addAll(contentCopy);
 	}
 
 	public void multiply(float value) {
