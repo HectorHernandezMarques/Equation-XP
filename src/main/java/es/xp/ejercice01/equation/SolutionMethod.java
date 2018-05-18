@@ -1,20 +1,31 @@
 package es.xp.ejercice01.equation;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public abstract class SolutionMethod {
-	
+
 	protected List<Equation> equations;
 	protected Set<String> nameSet;
 	protected Map<String, Equation> solutions;
 
-	protected void set(Set<String> nameSet) {
-		this.nameSet = nameSet;
+	public SolutionMethod() {
+		this.solutions = new HashMap<String, Equation>();
+		this.nameSet = new HashSet<String>();
 	}
-	
+
+	public void set(List<Equation> equations) {
+		this.equations = equations;
+		for (Equation equation : equations) {
+			this.nameSet.addAll(equation.getNameSet());
+		}
+	}
+
+	public abstract void resolve();
+
 	protected Map<String, Equation> getSolutions() {
 		return this.solutions;
 	}
@@ -55,15 +66,4 @@ public abstract class SolutionMethod {
 	protected void setSolution(String firstName, Equation equation) {
 		this.solutions.put(firstName, equation);
 	}
-	
-	public SolutionMethod() {
-		this.solutions = new HashMap<String, Equation>();
-	}
-	
-	public void set(List<Equation> equations) {
-		this.equations = equations;
-	}
-
-	public abstract void resolve();
-
 }

@@ -1,7 +1,6 @@
 package es.xp.ejercice01.equation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,26 +8,19 @@ public class EquationSystem {
 
 	private List<Equation> equationList;
 	
-	private Set<String> nameSet;
-	
 	private SolutionMethod solutionMethod;
 	
 	public EquationSystem(){
 		this.equationList = new ArrayList<Equation>();
-		this.nameSet = new HashSet<String>();
 	}
 	
 	public void add(Equation equation) {
 		this.equationList.add(equation);
-		for(String name : equation.getNameSet()){
-			this.nameSet.add(name);
-		}
 	}
 	
 	public void set(SolutionMethod solutionMethod){
 		this.solutionMethod = solutionMethod;
 		this.solutionMethod.set(this.equationList);
-		this.solutionMethod.set(this.nameSet);
 	}
 	
 	public void resolve(){
@@ -36,7 +28,7 @@ public class EquationSystem {
 	}
 
 	public Set<String> getNameSet() {
-		return nameSet;
+		return this.solutionMethod.getNameSet();
 	}
 	
 	public float getSolution(String name){
