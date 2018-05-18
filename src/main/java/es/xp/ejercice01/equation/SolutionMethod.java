@@ -11,6 +11,51 @@ public abstract class SolutionMethod {
 	protected Set<String> nameSet;
 	protected Map<String, Equation> solutions;
 
+	protected void set(Set<String> nameSet) {
+		this.nameSet = nameSet;
+	}
+	
+	protected Map<String, Equation> getSolutions() {
+		return this.solutions;
+	}
+
+	protected void copyBefore(int before) {
+		int index = this.equations.size() - before;
+		this.add(this.get(index).clone());
+	}
+
+	protected void copyBefore() {
+		this.copyBefore(1);
+	}
+
+	protected Equation get(int index) {
+		return this.equations.get(index);
+	}
+
+	protected void add(Equation equation) {
+		this.equations.add(equation);
+		for (String name : equation.getNameSet()) {
+			this.nameSet.add(name);
+		}
+	}
+
+	protected Equation getLast(int before) {
+		int index = this.equations.size() - before;
+		return this.equations.get(index);
+	}
+
+	protected Equation getLast() {
+		return this.getLast(1);
+	}
+
+	protected Set<String> getNameSet() {
+		return this.nameSet;
+	}
+
+	protected void setSolution(String firstName, Equation equation) {
+		this.solutions.put(firstName, equation);
+	}
+	
 	public SolutionMethod() {
 		this.solutions = new HashMap<String, Equation>();
 	}
@@ -21,15 +66,4 @@ public abstract class SolutionMethod {
 
 	public abstract void resolve();
 
-	public void set(Set<String> nameSet) {
-		this.nameSet = nameSet;
-	}
-
-	void setSolutions(Map<String, Equation> solutions) {
-		this.solutions = solutions;
-	}
-	
-	Map<String, Equation> getSolutions() {
-		return this.solutions;
-	}
 }
