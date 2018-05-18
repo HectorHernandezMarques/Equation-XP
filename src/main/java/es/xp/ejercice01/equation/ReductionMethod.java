@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class ReductionMethod extends SolutionMethod {
-
+	
 	@Override
 	public void resolve() {
 		assert super.nameSet.size() == 2;

@@ -1,27 +1,21 @@
 package es.xp.ejercice01.equation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class EquationSystem {
 
-	//TODO private
-	List<Equation> equationList;
+	private List<Equation> equationList;
 	
 	private Set<String> nameSet;
-	
-	private Map<String, Equation> solutions;
 	
 	private SolutionMethod solutionMethod;
 	
 	public EquationSystem(){
 		this.equationList = new ArrayList<Equation>();
 		this.nameSet = new HashSet<String>();
-		this.solutions = new HashMap<String, Equation>();
 	}
 	
 	public void add(Equation equation) {
@@ -35,7 +29,6 @@ public class EquationSystem {
 		this.solutionMethod = solutionMethod;
 		this.solutionMethod.set(this.equationList);
 		this.solutionMethod.set(this.nameSet);
-		this.solutionMethod.setSolutions(this.solutions);
 	}
 	
 	public void resolve(){
@@ -46,12 +39,8 @@ public class EquationSystem {
 		return nameSet;
 	}
 	
-	void setSolution(String firstName, Equation equation) {
-		this.solutions.put(firstName, equation);
-	}
-	
 	public float getSolution(String name){
-		return this.solutions.get(name).getValue(Side.RIGHT);
+		return this.solutionMethod.getSolutions().get(name).getValue(Side.RIGHT);
 	}
 	
 	public boolean equal(EquationSystem equationSystem){
