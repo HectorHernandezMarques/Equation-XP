@@ -40,9 +40,18 @@ public class Equation {
 			expression.multiply(value);
 		}
 	}
-	
+
 	public float getValue(Side side, String name) {
 		return this.expressions.get(side).getValue(name);
+	}
+	
+	public float getValue(String name) {
+		for (Expression expression : this.expressions.values()) {
+			if(expression.hasName(name)) {
+				return expression.getValue(name);
+			}
+		}
+		return 0.0f;
 	}
 	
 	public float getValue(Side side) {
@@ -94,7 +103,17 @@ public class Equation {
 		return this.expressions.get(Side.LEFT).toString() + "=" + this.expressions.get(Side.RIGHT).toString();
 	}
 
+	public void apply(String name, float value) {
+		for (Expression expression : this.expressions.values()) {
+			expression.apply(name, value);
+		}
+	}
+	
 	public void invert() {
-		this.multiply(-1);
+		Map<Side, Expression> expressions = new HashMap<Side, Expression>();
+		expressions.put(Side.LEFT, this.expressions.get(Side.RIGHT));
+		expressions.put(Side.RIGHT, this.expressions.get(Side.LEFT));
+		
+		this.expressions = expressions;
 	}
 }

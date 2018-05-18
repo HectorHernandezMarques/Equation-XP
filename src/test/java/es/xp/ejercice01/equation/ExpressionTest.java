@@ -2,7 +2,6 @@ package es.xp.ejercice01.equation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import es.xp.ejercice01.equation.Constant;
 import es.xp.ejercice01.equation.Expression;
-import es.xp.ejercice01.equation.Term;
 import es.xp.ejercice01.equation.Variable;
 
 public class ExpressionTest {

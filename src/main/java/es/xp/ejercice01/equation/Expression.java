@@ -134,4 +134,17 @@ public class Expression {
 		return result;
 	}
 
+	public void apply(String name, float value) {
+		List<Term> listAux = new ArrayList<Term>();
+		for (Term term : this.terms) {
+			if (!term.hasName(name)) {
+				listAux.add(term);
+			}
+			else if(value != 0){
+				listAux.add(new Constant(term.getValue() * value));
+			}
+		}
+		this.terms = listAux;
+	}
+
 }

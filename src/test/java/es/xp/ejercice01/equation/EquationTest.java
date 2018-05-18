@@ -193,7 +193,7 @@ class EquationTest {
 		
 		equation.invert();
 		
-		assertEquals("-6.0x-7.0y-2.0y=-5.0x-1.0x-2.0y-2.0-5.0", equation.toString());
+		assertEquals("+5.0x+1.0x+2.0y+2.0+5.0=+6.0x+7.0y+2.0y", equation.toString());
 	}
 
 }
