@@ -34,6 +34,7 @@ public class EquationSystem {
 	public void set(SolutionMethod solutionMethod){
 		this.solutionMethod = solutionMethod;
 		this.solutionMethod.set(this);
+		this.solutionMethod.set(this.equationList);
 	}
 	
 	public void resolve(){
@@ -44,29 +45,7 @@ public class EquationSystem {
 		return nameSet;
 	}
 	
-	private Equation get(int index){
-		return this.equationList.get(index);
-	}
-	
-	Equation getLast(int before){
-		int index = this.equationList.size() - before;
-		return this.equationList.get(index);
-	}
-	
-	Equation getLast(){
-		return this.getLast(1);
-	}	
-	
-	void copyBefore(int before){
-		int index = this.equationList.size() - before;
-		this.add(this.get(index).clone());
-	}
-	
-	void copyBefore(){
-		this.copyBefore(1);
-	}
-	
-	void seStolution(String firstName, Equation equation) {
+	void setSolution(String firstName, Equation equation) {
 		this.solutions.put(firstName, equation);
 	}
 	

@@ -1,43 +1,88 @@
 package es.xp.ejercice01.equation;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class ReductionMethod extends SolutionMethod {
 
-	@Override
-	public void resolve() {
-		assert equationSystem.getNameSet().size() == 2;
-		Iterator<String> nameIterator = equationSystem.getNameSet().iterator();
-		String firstName = nameIterator.next();	
-		String secondName = nameIterator.next();
-		float value1 = equationSystem.getLast(2).getValue(firstName);
-		float value2 = equationSystem.getLast().getValue(firstName);
-		equationSystem.copyBefore(2);
-		equationSystem.getLast().multiply(value2);
-		equationSystem.copyBefore(2);
-		equationSystem.getLast().multiply(-value1);
-		equationSystem.copyBefore();
-		equationSystem.getLast().add(equationSystem.getLast(3));
-		equationSystem.copyBefore();
-		equationSystem.getLast().simplify(Side.LEFT, firstName);
-		equationSystem.copyBefore();
-		equationSystem.getLast().simplify(Side.LEFT, secondName);
-		equationSystem.copyBefore();
-		equationSystem.getLast().simplify(Side.RIGHT);;
-		equationSystem.copyBefore();
-		equationSystem.getLast().multiply(1/equationSystem.getLast(2).getValue(secondName));
-		equationSystem.seStolution(secondName, equationSystem.getLast());
-		equationSystem.copyBefore(9);
-		equationSystem.getLast().apply(secondName, equationSystem.getLast(2).getValue(Side.RIGHT));
-		equationSystem.copyBefore();
-		equationSystem.getLast().add(new Constant(-equationSystem.getLast(2).getValue(Side.LEFT)));
-		equationSystem.copyBefore();
-		equationSystem.getLast().simplify(Side.LEFT);
-		equationSystem.copyBefore();
-		equationSystem.getLast().simplify(Side.RIGHT);
-		equationSystem.copyBefore();
-		equationSystem.getLast().multiply(1/equationSystem.getLast(2).getValue(firstName));
-		equationSystem.seStolution(firstName, equationSystem.getLast());
+	private Set<String> nameSet;
+
+	private Map<String, Equation> solutions;
+	
+	public ReductionMethod() {
+		this.nameSet = new HashSet<String>();
+		this.solutions = new HashMap<String, Equation>();
 	}
 	
+	@Override
+	public void resolve() {
+		assert this.equationSystem.getNameSet().size() == 2;
+		Iterator<String> nameIterator = this.equationSystem.getNameSet().iterator();
+		String firstName = nameIterator.next();	
+		String secondName = nameIterator.next();
+		float value1 = this.getLast(2).getValue(firstName);
+		float value2 = this.getLast().getValue(firstName);
+		this.copyBefore(2);
+		this.getLast().multiply(value2);
+		this.copyBefore(2);
+		this.getLast().multiply(-value1);
+		this.copyBefore();
+		this.getLast().add(this.getLast(3));
+		this.copyBefore();
+		this.getLast().simplify(Side.LEFT, firstName);
+		this.copyBefore();
+		this.getLast().simplify(Side.LEFT, secondName);
+		this.copyBefore();
+		this.getLast().simplify(Side.RIGHT);;
+		this.copyBefore();
+		this.getLast().multiply(1/this.getLast(2).getValue(secondName));
+		this.equationSystem.setSolution(secondName, this.getLast());
+		this.copyBefore(9);
+		this.getLast().apply(secondName, this.getLast(2).getValue(Side.RIGHT));
+		this.copyBefore();
+		this.getLast().add(new Constant(-this.getLast(2).getValue(Side.LEFT)));
+		this.copyBefore();
+		this.getLast().simplify(Side.LEFT);
+		this.copyBefore();
+		this.getLast().simplify(Side.RIGHT);
+		this.copyBefore();
+		this.getLast().multiply(1/this.getLast(2).getValue(firstName));
+		this.equationSystem.setSolution(firstName, this.getLast());
+	}
+	
+	void copyBefore(int before){
+		int index = this.equations.size() - before;
+		this.add(this.get(index).clone());
+	}
+	
+	void copyBefore(){
+		this.copyBefore(1);
+	}
+	
+	private Equation get(int index){
+		return this.equations.get(index);
+	}
+	
+	public void add(Equation equation) {
+		this.equations.add(equation);
+		for(String name : equation.getNameSet()){
+			this.nameSet.add(name);
+		}
+	}
+	
+	Equation getLast(int before){
+		int index = this.equations.size() - before;
+		return this.equations.get(index);
+	}
+	
+	Equation getLast(){
+		return this.getLast(1);
+	}
+
+	public Set<String> getNameSet() {
+		return nameSet;
+	}
 }
