@@ -71,7 +71,7 @@ class VariableTest {
 		assertFalse(variable1 == variable2);
 		assertEquals(variable1, variable2);
 		variable1.multiply(5);
-		
+
 		assertNotEquals(variable1, variable2);
 	}
 
@@ -81,7 +81,7 @@ class VariableTest {
 		Variable variable = new Variable(5, name);
 		assertEquals("5.0" + name, variable.toString());
 	}
-	
+
 	@ParameterizedTest
 	@ValueSource(strings = { "x", "y" })
 	public void toStringTestWithNegativeValue(String name) {

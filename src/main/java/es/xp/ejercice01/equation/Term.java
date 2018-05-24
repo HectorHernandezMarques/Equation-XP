@@ -5,9 +5,11 @@ import java.util.Set;
 public abstract class Term {
 
 	private float value;
+	private Fraction fraction;
 
 	public Term(float value) {
 		this.value = value;
+		this.fraction = new Fraction((int)value, 1);
 	}
 
 	public float getValue() {
@@ -15,6 +17,8 @@ public abstract class Term {
 	}
 
 	public void multiply(float value) {
+		int value2 = (int)value;
+		this.fraction.multiply(value2);
 		this.value *= value;
 	}
 
