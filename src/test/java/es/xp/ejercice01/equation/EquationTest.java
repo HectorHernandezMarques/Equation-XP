@@ -25,7 +25,7 @@ class EquationTest {
 		equation.add(new Variable(5, "x"));
 		equation.add(new Variable(6, "y"));
 		equation.add(new Constant(5));
-		assertEquals("+5.0x+6.0y+5.0=+5.0x+6.0y+5.0",equation.toString());
+		assertEquals("+(5/1)x+(6/1)y+(5/1)=+(5/1)x+(6/1)y+(5/1)",equation.toString());
 	}
 	
 	@Test
@@ -33,7 +33,7 @@ class EquationTest {
 		Equation equation = new Equation();
 		equation.add(Side.LEFT, new Variable(6, "y"));
 		equation.add(Side.RIGHT, new Variable(5, "x"));
-		assertEquals("+6.0y=+5.0x",equation.toString());
+		assertEquals("+(6/1)y=+(5/1)x",equation.toString());
 	}
 
 	@Test
@@ -47,12 +47,12 @@ class EquationTest {
 		equation2.add(new Constant(5));
 		
 		equation.add(equation2);
-		assertEquals("+6.0y+5.0x+6.0y+5.0=+5.0x+5.0x+6.0y+5.0",equation.toString());
+		assertEquals("+(6/1)y+(5/1)x+(6/1)y+(5/1)=+(5/1)x+(5/1)x+(6/1)y+(5/1)",equation.toString());
 	}
 
 	@ParameterizedTest
-	@ValueSource(floats = { 5, 10 })
-	void multiplyTest(float value) {
+	@ValueSource(ints = { 5, 10 })
+	void multiplyTest(int value) {
 		Equation equation = new Equation();
 		equation.add(new Variable(5, "x"));
 		equation.add(new Variable(6, "y"));
@@ -63,7 +63,7 @@ class EquationTest {
 		equation2.add(new Variable(6*value, "y"));
 		equation2.add(new Constant(5*value));
 		
-		equation.multiply(value);
+		equation.multiply(new Fraction(value));
 		
 		assertEquals(equation.toString(),equation2.toString());
 	}
@@ -79,8 +79,8 @@ class EquationTest {
 		equation.add(Side.RIGHT, new Constant(2));
 		equation.add(Side.RIGHT, new Constant(5));
 		
-		assertEquals(9, equation.getValue(Side.LEFT, "y"), 0.001);
-		assertEquals(6, equation.getValue(Side.RIGHT, "x"), 0.001);
+		assertEquals(new Fraction(9), equation.getValue(Side.LEFT, "y"));
+		assertEquals(new Fraction(6), equation.getValue(Side.RIGHT, "x"));
 	}
 	
 	@Test
@@ -94,7 +94,7 @@ class EquationTest {
 		equation.add(Side.RIGHT, new Constant(2));
 		equation.add(Side.RIGHT, new Constant(5));
 		
-		assertEquals(7, equation.getValue(Side.RIGHT), 0.001);
+		assertEquals(new Fraction(7), equation.getValue(Side.RIGHT));
 	}
 	
 	@Test
@@ -112,12 +112,12 @@ class EquationTest {
 		equation.simplify(Side.LEFT, "x");
 		equation.simplify(Side.RIGHT, "y");
 		
-		assertEquals("+7.0y+2.0y+6.0x=+5.0x+1.0x+2.0+5.0+2.0y", equation.toString());
+		assertEquals("+(7/1)y+(2/1)y+(6/1)x=+(5/1)x+(1/1)x+(2/1)+(5/1)+(2/1)y", equation.toString());
 		
 		equation.simplify(Side.RIGHT, "x");
 		equation.simplify(Side.LEFT, "y");
 		
-		assertEquals("+6.0x+9.0y=+2.0+5.0+2.0y+6.0x", equation.toString());
+		assertEquals("+(6/1)x+(9/1)y=+(2/1)+(5/1)+(2/1)y+(6/1)x", equation.toString());
 	}
 	
 	@Test
@@ -133,7 +133,7 @@ class EquationTest {
 		equation.add(Side.RIGHT, new Constant(5));
 		
 		equation.simplify(Side.LEFT);
-		assertEquals("+6.0x+7.0y+2.0y=+5.0x+1.0x+2.0y+2.0+5.0", equation.toString());
+		assertEquals("+(6/1)x+(7/1)y+(2/1)y=+(5/1)x+(1/1)x+(2/1)y+(2/1)+(5/1)", equation.toString());
 	}
 
 	private Expression createExpression() {
@@ -160,7 +160,7 @@ class EquationTest {
 		Equation equationClon = equation.clone();
 		assertEquals(equation, equationClon);
 		assertFalse(equation == equationClon);
-		equation.multiply(5);
+		equation.multiply(new Fraction(5));
 		assertNotEquals(equation, equationClon);
 	}
 
@@ -176,7 +176,7 @@ class EquationTest {
 		equation.add(Side.RIGHT, new Constant(2));
 		equation.add(Side.RIGHT, new Constant(5));
 		
-		assertEquals("+6.0x+7.0y+2.0y=+5.0x+1.0x+2.0y+2.0+5.0", equation.toString());
+		assertEquals("+(6/1)x+(7/1)y+(2/1)y=+(5/1)x+(1/1)x+(2/1)y+(2/1)+(5/1)", equation.toString());
 	}
 	
 	@Test
@@ -193,7 +193,7 @@ class EquationTest {
 		
 		equation.invert();
 		
-		assertEquals("+5.0x+1.0x+2.0y+2.0+5.0=+6.0x+7.0y+2.0y", equation.toString());
+		assertEquals("+(5/1)x+(1/1)x+(2/1)y+(2/1)+(5/1)=+(6/1)x+(7/1)y+(2/1)y", equation.toString());
 	}
 
 }

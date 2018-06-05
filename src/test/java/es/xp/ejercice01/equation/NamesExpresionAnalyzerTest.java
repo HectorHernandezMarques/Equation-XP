@@ -16,8 +16,8 @@ import es.xp.ejercice01.equation.Variable;
 public class NamesExpresionAnalyzerTest {
 
 	@ParameterizedTest
-	@ValueSource(floats = { 5, 10 })
-	void constructorTest(float value) {
+	@ValueSource(ints = { 5, 10 })
+	void constructorTest(int value) {
 		Constant constant1 = new Constant(value);
 		Variable variable1 = new Variable(value, "x");
 		Variable variable2 = new Variable(value, "y");

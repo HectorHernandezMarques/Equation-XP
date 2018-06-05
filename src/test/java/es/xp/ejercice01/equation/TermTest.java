@@ -17,10 +17,10 @@ import es.xp.ejercice01.equation.Term;
 public class TermTest {
 
 	@ParameterizedTest
-	@ValueSource(floats = { 5, 10 })
-	public void multiplyBy10Test(float value) {
+	@ValueSource(ints = { 5, 10 })
+	public void multiplyBy10Test(int value) {
 		Term term = new Constant(value);
-		term.multiply(10);
+		term.multiply(new Fraction(10));
 
 		assertEquals(new Constant(10 * value), term);
 	}
@@ -76,13 +76,13 @@ public class TermTest {
 	@Test
 	public void toStringTestWithConstantPositive() {
 		Term term = new Constant(5);
-		assertEquals("5.0", term.toString());
+		assertEquals("(5/1)", term.toString());
 	}
 	
 	@Test
 	public void toStringTestWithVariablePositive() {
 		Term term = new Variable(5, "x");
-		assertEquals("5.0x", term.toString());
+		assertEquals("(5/1)x", term.toString());
 	}
 
 }

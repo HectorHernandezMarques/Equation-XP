@@ -22,14 +22,24 @@ public class EquationBuilder {
 		}
 		return this;
 	}
-	
-	public EquationBuilder term(float value, String name) {
-		this.equation.add(side, new Variable(value, name));
+
+	public EquationBuilder term(int num, String name) {
+		this.term(num, 1, name);
 		return this;
 	}
 	
-	public EquationBuilder term(float value) {
-		this.equation.add(side, new Constant(value));
+	public EquationBuilder term(int num, int den, String name) {
+		this.equation.add(side, new Variable(num, den, name));
+		return this;
+	}
+	
+	public EquationBuilder term(int num) {
+		this.term(num, 1);
+		return this;
+	}
+	
+	public EquationBuilder term(int num, int den) {
+		this.equation.add(side, new Constant(num, den));
 		return this;
 	}
 

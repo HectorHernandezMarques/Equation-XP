@@ -5,8 +5,16 @@ import java.util.Set;
 public class Variable extends Term {
 	private String name;
 
-	public Variable(float value, String name) {
-		super(value);
+	public Variable(Fraction fraction, String name) {
+		this(fraction.getNum(), fraction.getDen(), name);
+	}
+
+	public Variable(int num, String name) {
+		this(num, 1, name);
+	}
+	
+	public Variable(int num, int den, String name) {
+		super(num, den);
 		this.name = name;
 	}
 
@@ -44,12 +52,12 @@ public class Variable extends Term {
 
 	@Override
 	public Variable clone() {
-		return new Variable(this.getValue(), new String(this.name));
+		return new Variable(this.getNum(), getDen(), new String(this.name));
 	}
 
 	@Override
 	public String toString() {
-		return "" + this.getValue() + this.name;
+		return "" + super.toString() + this.name;
 	}
 
 	@Override

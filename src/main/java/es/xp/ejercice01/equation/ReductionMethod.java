@@ -10,12 +10,12 @@ public class ReductionMethod extends SolutionMethod {
 		Iterator<String> nameIterator = this.nameSet.iterator();
 		String firstName = nameIterator.next();
 		String secondName = nameIterator.next();
-		float value1 = this.getLast(2).getValue(firstName);
-		float value2 = this.getLast().getValue(firstName);
+		Fraction value1 = this.getLast(2).getValue(firstName);
+		Fraction value2 = this.getLast().getValue(firstName);
 		this.copyBefore(2);
 		this.getLast().multiply(value2);
 		this.copyBefore(2);
-		this.getLast().multiply(-value1);
+		this.getLast().multiply(value1.multiply(-1));
 		this.copyBefore();
 		this.getLast().add(this.getLast(3));
 		this.copyBefore();
@@ -25,18 +25,18 @@ public class ReductionMethod extends SolutionMethod {
 		this.copyBefore();
 		this.getLast().simplify(Side.RIGHT);
 		this.copyBefore();
-		this.getLast().multiply(1 / this.getLast(2).getValue(secondName));
+		this.getLast().multiply(this.getLast(2).getValue(secondName).getInvert());
 		this.setSolution(secondName, this.getLast());
 		this.copyBefore(9);
 		this.getLast().apply(secondName, this.getLast(2).getValue(Side.RIGHT));
 		this.copyBefore();
-		this.getLast().add(new Constant(-this.getLast(2).getValue(Side.LEFT)));
+		this.getLast().add(new Constant(this.getLast(2).getValue(Side.LEFT).multiply(-1)));
 		this.copyBefore();
 		this.getLast().simplify(Side.LEFT);
 		this.copyBefore();
 		this.getLast().simplify(Side.RIGHT);
 		this.copyBefore();
-		this.getLast().multiply(1 / this.getLast(2).getValue(firstName));
+		this.getLast().multiply(this.getLast(2).getValue(firstName).getInvert());
 		this.setSolution(firstName, this.getLast());
 	}
 

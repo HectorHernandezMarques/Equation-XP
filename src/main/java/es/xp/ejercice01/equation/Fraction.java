@@ -10,9 +10,26 @@ public class Fraction {
 		this.num = num;
 		this.den = den;
 	}
+	
+	public Fraction(float value) {
+		int den = 1;
+		while(value%1 != 0.0) {
+			value *= 10;
+			den *= 10;
+		}
+		this.num = (int) (value);
+		this.den = den;
+		this.simplify();
+	}
 
 	public Fraction multiply(int value) {
 		Fraction result = new Fraction(value * num, den);
+		result.simplify();
+		return result;
+	}
+	
+	public Fraction multiply(Fraction fraction) {
+		Fraction result = new Fraction(this.num * fraction.num, this.den * fraction.den);
 		result.simplify();
 		return result;
 	}
@@ -42,7 +59,17 @@ public class Fraction {
 		return true;
 	}
 
-	public Object add(Fraction fraction) {
+	public boolean equal(Fraction fraction) {
+		return this.num == fraction.num &&
+				this.den == fraction.den;
+	}
+
+	@Override
+	protected Fraction clone() {
+		return new Fraction(this.num, this.den);
+	}
+
+	public Fraction add(Fraction fraction) {
 		final int num = this.num * fraction.den + fraction.num * this.den;
 		final int den = this.den * fraction.den;
 		Fraction result = new Fraction(num, den);
@@ -54,11 +81,8 @@ public class Fraction {
 		// ecluides's alg
 		int a = Math.abs(num);
 		int b = Math.abs(den);
-		System.out.println(num);
-		System.out.println(den);
 		if (num != 0) {
 			while (b != 0) {
-				System.out.println(".");
 				if (a > b) {
 					a = a - b;
 				} else {
@@ -75,4 +99,16 @@ public class Fraction {
 		return "(" + this.num + "/" + this.den + ")";
 	}
 
+	public int getNum() {
+		return this.num;
+	}
+
+	public int getDen() {
+		return this.den;
+	}
+
+	public Fraction getInvert() {
+		return new Fraction(this.den, this.num);
+	}
+	
 }

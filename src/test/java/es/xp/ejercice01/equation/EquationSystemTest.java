@@ -17,8 +17,8 @@ public class EquationSystemTest {
 			.build();
 		equationSystem.set(new ReductionMethod());
 		equationSystem.resolve();
-		assertEquals(0.73684216, equationSystem.getSolution(name1), precission);
-		assertEquals(0.6315789, equationSystem.getSolution(name2), precission);		
+		assertEquals("(14/19)", equationSystem.getSolution(name1).toString());
+		assertEquals("(12/19)", equationSystem.getSolution(name2).toString());		
 	}
 
 }

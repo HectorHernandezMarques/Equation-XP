@@ -15,21 +15,24 @@ import es.xp.ejercice01.equation.Variable;
 public class ExpressionTest {
 
 	private Expression createExpression() {
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder();
 		expressionBuilder.add(new Constant(1)).add(new Constant(5))
 											  .add(new Variable(2, "x")).add(new Variable(3, "x"))
 											  .add(new Variable(4, "y"));
 		return expressionBuilder.build();
 	}
 
-	ExpressionBuilder expressionBuilder;
+	private ExpressionBuilder expressionBuilder;
 
+	public ExpressionTest() {
+		this.expressionBuilder = new ExpressionBuilder();
+	}
+	
 	@Test
 	void addTermTest() {
 		Expression expression = this.createExpression();
-		assertEquals(6, expression.getValue(), 0.001);
-		assertEquals(5, expression.getValue("x"), 0.001);
-		assertEquals(4, expression.getValue("y"), 0.001);
+		assertEquals(new Fraction(6), expression.getValue());
+		assertEquals(new Fraction(5), expression.getValue("x"));
+		assertEquals(new Fraction(4), expression.getValue("y"));
 
 	}
 
@@ -41,28 +44,26 @@ public class ExpressionTest {
 				  								  .build();
 		expression.add(expAux);
 
-		assertEquals(6, expression.getValue(), 0.001);
-		assertEquals(5, expression.getValue("x"), 0.001);
-		assertEquals(10, expression.getValue("y"), 0.001);
+		assertEquals(new Fraction(6), expression.getValue());
+		assertEquals(new Fraction(5), expression.getValue("x"));
+		assertEquals(new Fraction(10), expression.getValue("y"));
 	}
 
 	@ParameterizedTest
 	@ValueSource(floats = { 5, 10 })
 	void multiplyTest(float value) {
 		Expression expression = this.createExpression();
-		expression.multiply(value);
-		assertEquals(6 * value, expression.getValue(), 0.001);
-		assertEquals(5 * value, expression.getValue("x"), 0.001);
-		assertEquals(4 * value, expression.getValue("y"), 0.001);
+		expression.multiply(new Fraction(value));
+		assertEquals(new Fraction(6 * value), expression.getValue());
+		assertEquals(new Fraction(5 * value), expression.getValue("x"));
+		assertEquals(new Fraction(4 * value), expression.getValue("y"));
 
 	}
 
 	@Test
 	void simplifyVariableTest() {
-		this.expressionBuilder = new ExpressionBuilder();
 		Expression expression = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x"))
 												  .build();
-		this.expressionBuilder = new ExpressionBuilder();
 		Expression result = this.expressionBuilder.add(new Variable(5, "x")).build();
 
 		assertNotEquals(result, expression);
@@ -72,11 +73,9 @@ public class ExpressionTest {
 	
 	@Test
 	void simplifyConstantTest() {
-		this.expressionBuilder = new ExpressionBuilder();
 		Expression expression = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x"))
 													  .add(new Constant(4)).add(new Constant(2))
 													  .build();
-		this.expressionBuilder = new ExpressionBuilder();
 		Expression result = this.expressionBuilder.add(new Variable(2, "x")).add(new Variable(3, "x"))
 												  .add(new Constant(6))
 												  .build();
@@ -93,14 +92,14 @@ public class ExpressionTest {
 		assertEquals(expression, expAux);
 		assertFalse(expression == expAux);
 		
-		expAux.multiply(5);
+		expAux.multiply(new Fraction(5));
 		assertNotEquals(expression, expAux);
 	}
 
 	@Test
 	void toStringTest() {
 		Expression expression = this.createExpression();
-		assertEquals("+1.0+5.0+2.0x+3.0x+4.0y", expression.toString());
+		assertEquals("+(1/1)+(5/1)+(2/1)x+(3/1)x+(4/1)y", expression.toString());
 	}
 
 }

@@ -14,9 +14,18 @@ class VariableTest {
 
 	@ParameterizedTest
 	@ValueSource(strings = { "x", "y" })
-	void constructorTest(String name) {
+	void twoParametersConstructorTest(String name) {
 		Variable variable = new Variable(5, name);
-		assertEquals(5, variable.getValue());
+		assertEquals(new Fraction(5), variable.getValue());
+		assertEquals(name, variable.getName());
+
+	}
+	
+	@ParameterizedTest
+	@ValueSource(strings = { "x", "y" })
+	void threeParametersConstructorTest(String name) {
+		Variable variable = new Variable(5, 2, name);
+		assertEquals(new Fraction(5, 2), variable.getValue());
 		assertEquals(name, variable.getName());
 
 	}
@@ -70,8 +79,7 @@ class VariableTest {
 
 		assertFalse(variable1 == variable2);
 		assertEquals(variable1, variable2);
-		variable1.multiply(5);
-
+		variable1.multiply(new Fraction(5));
 		assertNotEquals(variable1, variable2);
 	}
 
@@ -79,14 +87,14 @@ class VariableTest {
 	@ValueSource(strings = { "x", "y" })
 	public void toStringTestWithPositiveValue(String name) {
 		Variable variable = new Variable(5, name);
-		assertEquals("5.0" + name, variable.toString());
+		assertEquals("(5/1)" + name, variable.toString());
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = { "x", "y" })
 	public void toStringTestWithNegativeValue(String name) {
 		Variable variable = new Variable(-5, name);
-		assertEquals("-5.0" + name, variable.toString());
+		assertEquals("(-5/1)" + name, variable.toString());
 	}
 
 }

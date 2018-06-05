@@ -27,24 +27,24 @@ public class Expression {
 		this.terms.addAll(contentCopy);
 	}
 
-	public void multiply(float value) {
+	public void multiply(Fraction fraction) {
 		for (Term term : this.terms) {
-			term.multiply(value);
+			term.multiply(fraction);
 		}
 	}
 
 	public void simplify() {
-		float value = 0;
+		Fraction value = new Fraction(0);
 		NamesExpresionAnalyzer analyzer = new NamesExpresionAnalyzer(this.terms);
 		List<Term> listAux = new ArrayList<Term>();
 		for (Term term : this.terms) {
 			if (!term.hasName(analyzer.getNameSet())) {
-				value += term.getValue();
+				value = value.add(term.getValue());
 			} else {
 				listAux.add(term);
 			}
 		}
-		if (value != 0) {
+		if (value.getNum() != 0) {
 			listAux.add(new Constant(value));
 		}
 		this.terms = listAux;
@@ -56,28 +56,28 @@ public class Expression {
 			if (!term.hasName(name))
 				listAux.add(term);
 		}
-		if (this.getValue(name) != 0) {
+		if (this.getValue(name).getNum() != 0) {
 			listAux.add(new Variable(this.getValue(name), name));
 		}
 		this.terms = listAux;
 	}
 
-	public float getValue(String name) {
-		float result = 0;
+	public Fraction getValue(String name) {
+		Fraction result = new Fraction(0);
 		for (Term term : this.terms) {
 			if (term.hasName(name)) {
-				result += term.getValue();
+				result = result.add(term.getValue());
 			}
 		}
 		return result;
 	}
 
-	public float getValue() {
-		float result = 0;
+	public Fraction getValue() {
+		Fraction result = new Fraction(0);
 		NamesExpresionAnalyzer analyzer = new NamesExpresionAnalyzer(this.terms);
 		for (Term term : this.terms) {
 			if (!term.hasName(analyzer.getNameSet())) {
-				result += term.getValue();
+				result = result.add(term.getValue());
 			}
 		}
 		return result;
@@ -119,29 +119,26 @@ public class Expression {
 	public String toString() {
 		String result = "";
 		for (Term term : this.terms) {
-			if (term.getValue() != 0) {
-				if (term.getValue() < 0) {
+			if (term.getValue().getNum() != 0) {
+				if (term.getValue().getNum() < 0) {
 					result += "";
 				} else {
 					result += "+";
 				}
-				result += term.getValue();
-				if (term.hasName(this.getNameSet())) {
-					result += ((Variable) term).getName();
-				}
+				result += term.toString();
 			}
 		}
 		return result;
 	}
 
-	public void apply(String name, float value) {
+	public void apply(String name, Fraction value) {
 		List<Term> listAux = new ArrayList<Term>();
 		for (Term term : this.terms) {
 			if (!term.hasName(name)) {
 				listAux.add(term);
 			}
-			else if(value != 0){
-				listAux.add(new Constant(term.getValue() * value));
+			else if(value.getNum() != 0){
+				listAux.add(new Constant(term.getValue().multiply(value)));
 			}
 		}
 		this.terms = listAux;

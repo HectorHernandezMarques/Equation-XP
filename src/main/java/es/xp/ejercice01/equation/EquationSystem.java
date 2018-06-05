@@ -31,7 +31,7 @@ public class EquationSystem {
 		return this.solutionMethod.getNameSet();
 	}
 
-	public float getSolution(String name) {
+	public Fraction getSolution(String name) {
 		return this.solutionMethod.getSolutions().get(name).getValue(Side.RIGHT);
 	}
 

@@ -17,14 +17,24 @@ public class EquationSystemBuilder {
 		this.equationBuilder = new EquationBuilder();
 		return this;
 	}
-
-	public EquationSystemBuilder term(float value, String name) {
-		equationBuilder.term(value, name);
+	
+	public EquationSystemBuilder term(int num, String name) {
+		this.term(num, 1, name);
 		return this;
 	}
 
-	public EquationSystemBuilder term(float value) {
-		equationBuilder.term(value);
+	public EquationSystemBuilder term(int num, int den, String name) {
+		equationBuilder.term(num, den, name);
+		return this;
+	}
+
+	public EquationSystemBuilder term(int num) {
+		equationBuilder.term(num, 1);
+		return this;
+	}
+
+	public EquationSystemBuilder term(int num, int den) {
+		equationBuilder.term(num, den);
 		return this;
 	}
 	

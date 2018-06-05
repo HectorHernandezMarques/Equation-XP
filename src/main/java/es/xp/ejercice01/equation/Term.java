@@ -4,22 +4,26 @@ import java.util.Set;
 
 public abstract class Term {
 
-	private float value;
 	private Fraction fraction;
 
-	public Term(float value) {
-		this.value = value;
-		this.fraction = new Fraction((int)value, 1);
+	public Term(int num, int den) {
+		this.fraction = new Fraction(num, den);
 	}
 
-	public float getValue() {
-		return value;
+	public Fraction getValue() {
+		return fraction.clone();
 	}
 
-	public void multiply(float value) {
-		int value2 = (int)value;
-		this.fraction.multiply(value2);
-		this.value *= value;
+	public int getNum() {
+		return this.fraction.getNum();
+	}
+
+	public int getDen() {
+		return this.fraction.getDen();
+	}
+
+	public void multiply(Fraction fraction) {
+		this.fraction = this.fraction.multiply(fraction);
 	}
 
 	public boolean hasName(String string) {
@@ -31,6 +35,14 @@ public abstract class Term {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fraction == null) ? 0 : fraction.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -39,13 +51,16 @@ public abstract class Term {
 		if (getClass() != obj.getClass())
 			return false;
 		Term other = (Term) obj;
-		if (Float.floatToIntBits(value) != Float.floatToIntBits(other.value))
+		if (fraction == null) {
+			if (other.fraction != null)
+				return false;
+		} else if (!fraction.equals(other.fraction))
 			return false;
 		return true;
 	}
 
 	public boolean equal(Term term) {
-		return term.value == this.value;
+		return this.fraction.equal(term.fraction);
 	}
 
 	@Override
@@ -53,7 +68,7 @@ public abstract class Term {
 
 	@Override
 	public String toString() {
-		return "" + value;
+		return "" + this.fraction.toString();
 	}
 
 	abstract public void dispatch(TermVisitor visitor);

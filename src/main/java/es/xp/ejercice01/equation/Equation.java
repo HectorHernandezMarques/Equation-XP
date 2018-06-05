@@ -35,26 +35,26 @@ public class Equation {
 		this.expressions.get(Side.RIGHT).add(equation.expressions.get(Side.RIGHT));
 	}
 	
-	public void multiply(float value) {
+	public void multiply(Fraction fraction) {
 		for (Expression expression : this.expressions.values()) {
-			expression.multiply(value);
+			expression.multiply(fraction);
 		}
 	}
 
-	public float getValue(Side side, String name) {
+	public Fraction getValue(Side side, String name) {
 		return this.expressions.get(side).getValue(name);
 	}
 	
-	public float getValue(String name) {
+	public Fraction getValue(String name) {
 		for (Expression expression : this.expressions.values()) {
 			if(expression.hasName(name)) {
 				return expression.getValue(name);
 			}
 		}
-		return 0.0f;
+		return new Fraction(0);
 	}
 	
-	public float getValue(Side side) {
+	public Fraction getValue(Side side) {
 		return this.expressions.get(side).getValue();
 	}
 	
@@ -103,7 +103,7 @@ public class Equation {
 		return this.expressions.get(Side.LEFT).toString() + "=" + this.expressions.get(Side.RIGHT).toString();
 	}
 
-	public void apply(String name, float value) {
+	public void apply(String name, Fraction value) {
 		for (Expression expression : this.expressions.values()) {
 			expression.apply(name, value);
 		}

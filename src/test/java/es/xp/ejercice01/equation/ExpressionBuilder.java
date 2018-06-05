@@ -27,7 +27,9 @@ public class ExpressionBuilder {
 	}
 
 	public Expression build() {
-		return this.expression.clone();
+		Expression result = this.expression.clone();
+		this.expression = new Expression();
+		return result.clone();
 	}
 
 }

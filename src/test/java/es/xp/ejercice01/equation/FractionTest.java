@@ -1,11 +1,31 @@
 package es.xp.ejercice01.equation;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // toString
 
 public class FractionTest {
+
+	@Test
+	public void constructorTest() {
+		assertEquals("(1/2)", new Fraction(0.5f).toString());
+		assertEquals("(3/1)", new Fraction(3.0f).toString());
+	}
+	
+	@Test
+	void cloneTest() {
+		Fraction fraction1 = new Fraction(1, 2);
+		Fraction fraction2 = fraction1.clone();
+
+		assertFalse(fraction1 == fraction2);
+		assertEquals(fraction1, fraction2);
+		fraction1 = fraction1.multiply(new Fraction(5));
+		assertNotEquals(fraction1, fraction2);
+	}
 
 	@Test
 	public void multiplyTest() {

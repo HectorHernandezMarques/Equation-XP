@@ -2,8 +2,16 @@ package es.xp.ejercice01.equation;
 
 public class Constant extends Term {
 
-	public Constant(float value) {
-		super(value);
+	public Constant(Fraction fraction) {
+		this(fraction.getNum(), fraction.getDen());
+	}
+	
+	public Constant(int num) {
+		this(num, 1);
+	}
+
+	public Constant(int num, int den) {
+		super(num, den);
 	}
 
 	@Override
@@ -13,7 +21,7 @@ public class Constant extends Term {
 
 	@Override
 	public Constant clone() {
-		return new Constant(this.getValue());
+		return new Constant(this.getNum(), this.getDen());
 	}
 
 	@Override
