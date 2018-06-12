@@ -2,6 +2,7 @@ package es.xp.ejercice01.equation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 public class Expression {
@@ -20,50 +21,57 @@ public class Expression {
 	}
 
 	public void add(Expression expression) {
-		List<Term> contentCopy = new ArrayList<Term>();
 		for (Term term : expression.terms) {
-			contentCopy.add(term.clone());
+			this.add(term);
 		}
-		this.terms.addAll(contentCopy);
 	}
 
-	public void multiply(Fraction fraction) {
+	public Expression multiply(Fraction fraction) {
+		Expression result = new Expression();
 		for (Term term : this.terms) {
-			term.multiply(fraction);
+			result.add(term.multiply(fraction));
 		}
+		return result;
 	}
 
 	public void simplify() {
-		Fraction value = new Fraction(0);
-		NamesExpresionAnalyzer analyzer = new NamesExpresionAnalyzer(this.terms);
-		List<Term> listAux = new ArrayList<Term>();
+		Fraction newSimplifyedValue = Fraction.ZERO();
+		List<Term> newTerms = new ArrayList<Term>();
 		for (Term term : this.terms) {
-			if (!term.hasName(analyzer.getNameSet())) {
-				value = value.add(term.getValue());
+			if (term.hasName(this.getNameSet())) {
+				newTerms.add(term);
 			} else {
-				listAux.add(term);
+				newSimplifyedValue = newSimplifyedValue.add(term.getValue());
 			}
 		}
-		if (value.getNum() != 0) {
-			listAux.add(new Constant(value));
+		if (!newSimplifyedValue.equals(Fraction.ZERO())) {
+			newTerms.add(new Constant(newSimplifyedValue));
 		}
-		this.terms = listAux;
+		this.terms = newTerms;
 	}
 
 	public void simplify(String name) {
-		List<Term> listAux = new ArrayList<Term>();
+		List<Term> newTerms = new ArrayList<Term>();
 		for (Term term : this.terms) {
-			if (!term.hasName(name))
-				listAux.add(term);
+			if (!term.hasName(name)) {
+				newTerms.add(term);
+			}
 		}
-		if (this.getValue(name).getNum() != 0) {
-			listAux.add(new Variable(this.getValue(name), name));
+		if (!this.getValue(name).equals(Fraction.ZERO())) {
+			newTerms.add(new Variable(this.getValue(name), name));
 		}
-		this.terms = listAux;
+		this.terms = newTerms;
+	}
+
+	public void simplifyAll() {
+		for (String name : this.getNameSet()) {
+			this.simplify(name);
+		}
+		this.simplify();
 	}
 
 	public Fraction getValue(String name) {
-		Fraction result = new Fraction(0);
+		Fraction result = Fraction.ZERO();
 		for (Term term : this.terms) {
 			if (term.hasName(name)) {
 				result = result.add(term.getValue());
@@ -73,10 +81,9 @@ public class Expression {
 	}
 
 	public Fraction getValue() {
-		Fraction result = new Fraction(0);
-		NamesExpresionAnalyzer analyzer = new NamesExpresionAnalyzer(this.terms);
+		Fraction result = Fraction.ZERO();
 		for (Term term : this.terms) {
-			if (!term.hasName(analyzer.getNameSet())) {
+			if (!term.hasName(this.getNameSet())) {
 				result = result.add(term.getValue());
 			}
 		}
@@ -132,16 +139,16 @@ public class Expression {
 	}
 
 	public void apply(String name, Fraction value) {
-		List<Term> listAux = new ArrayList<Term>();
+		List<Term> newTerms = new ArrayList<Term>();
 		for (Term term : this.terms) {
-			if (!term.hasName(name)) {
-				listAux.add(term);
+			if (term.hasName(name)) {
+				newTerms.add(new Constant(term.getValue().multiply(value)));
 			}
-			else if(value.getNum() != 0){
-				listAux.add(new Constant(term.getValue().multiply(value)));
+			else {
+				newTerms.add(term);
 			}
 		}
-		this.terms = listAux;
+		this.terms = newTerms;
 	}
 
 }

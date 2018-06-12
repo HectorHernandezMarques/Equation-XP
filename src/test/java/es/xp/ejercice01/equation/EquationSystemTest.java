@@ -17,8 +17,9 @@ public class EquationSystemTest {
 			.build();
 		equationSystem.set(new ReductionMethod());
 		equationSystem.resolve();
+		System.out.println(equationSystem.toString());
 		assertEquals("(14/19)", equationSystem.getSolution(name1).toString());
-		assertEquals("(12/19)", equationSystem.getSolution(name2).toString());		
+		assertEquals("(12/19)", equationSystem.getSolution(name2).toString());
 	}
 
 }

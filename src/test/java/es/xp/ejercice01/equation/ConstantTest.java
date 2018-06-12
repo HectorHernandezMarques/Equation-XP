@@ -43,9 +43,8 @@ class ConstantTest {
 		
 		assertFalse(constant1 == constant2);
 		assertEquals(constant1, constant2);
-		constant1.multiply(new Fraction(5));
 
-		assertNotEquals(constant1, constant2);
+		assertNotEquals(constant1, constant2.multiply(new Fraction(5)));
 	}
 	
 }

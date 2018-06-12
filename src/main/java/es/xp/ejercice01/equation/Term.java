@@ -22,10 +22,6 @@ public abstract class Term {
 		return this.fraction.getDen();
 	}
 
-	public void multiply(Fraction fraction) {
-		this.fraction = this.fraction.multiply(fraction);
-	}
-
 	public boolean hasName(String string) {
 		return false;
 	}
@@ -71,6 +67,8 @@ public abstract class Term {
 		return "" + this.fraction.toString();
 	}
 
+	abstract public Term multiply(Fraction fraction);
+	
 	abstract public void dispatch(TermVisitor visitor);
 
 }

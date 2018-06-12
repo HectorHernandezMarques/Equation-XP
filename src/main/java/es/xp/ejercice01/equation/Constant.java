@@ -15,6 +15,11 @@ public class Constant extends Term {
 	}
 
 	@Override
+	public Term multiply(Fraction fraction) {
+		return new Constant(this.getValue().multiply(fraction));
+	}
+	
+	@Override
 	public boolean equal(Term term) {
 		return super.equal(this);
 	}

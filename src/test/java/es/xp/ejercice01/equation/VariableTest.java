@@ -1,12 +1,15 @@
 package es.xp.ejercice01.equation;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import es.xp.ejercice01.equation.Variable;
 
@@ -79,8 +82,8 @@ class VariableTest {
 
 		assertFalse(variable1 == variable2);
 		assertEquals(variable1, variable2);
-		variable1.multiply(new Fraction(5));
-		assertNotEquals(variable1, variable2);
+		
+		assertNotEquals(variable2, variable1.multiply(new Fraction(5)));
 	}
 
 	@ParameterizedTest

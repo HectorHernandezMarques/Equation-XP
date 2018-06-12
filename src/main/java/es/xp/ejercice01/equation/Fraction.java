@@ -6,9 +6,12 @@ public class Fraction {
 
 	private int den;
 
-	public Fraction(int num, int den) {
-		this.num = num;
-		this.den = den;
+	static public Fraction ZERO() {
+		return new Fraction(0);
+	}
+	
+	public Fraction(int num) {
+		this(num, 1);
 	}
 	
 	public Fraction(float value) {
@@ -21,11 +24,15 @@ public class Fraction {
 		this.den = den;
 		this.simplify();
 	}
+	
+	public Fraction(int num, int den) {
+		this.num = num;
+		this.den = den;
+		this.simplify();
+	}
 
 	public Fraction multiply(int value) {
-		Fraction result = new Fraction(value * num, den);
-		result.simplify();
-		return result;
+		return this.multiply(new Fraction(value));
 	}
 	
 	public Fraction multiply(Fraction fraction) {

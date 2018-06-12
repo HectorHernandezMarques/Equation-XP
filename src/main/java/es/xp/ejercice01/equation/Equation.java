@@ -17,28 +17,37 @@ public class Equation {
 	}
 	
 	private Equation(Map<Side, Expression> expressions) {
-		this.expressions = new HashMap<Side, Expression>();
+		this();
+		this.expressions.get(Side.LEFT).add(expressions.get(Side.LEFT));
+		this.expressions.get(Side.RIGHT).add(expressions.get(Side.RIGHT));
 	}
 	
-	public void add(Side side, Term term) {
-		this.expressions.get(side).add(term);
+	public Equation add(Side side, Term term) {
+		Equation result = this.clone();
+		result.expressions.get(side).add(term);
+		return result;
 	}
 	
-	public void add(Term term) {
-		for (Expression expression : this.expressions.values()) {
+	public Equation add(Term term) {
+		Equation result = this.clone();
+		for (Expression expression : result.expressions.values()) {
 			expression.add(term);
 		}
+		return result;
 	}
 	
-	public void add(Equation equation) {
-		this.expressions.get(Side.LEFT).add(equation.expressions.get(Side.LEFT));
-		this.expressions.get(Side.RIGHT).add(equation.expressions.get(Side.RIGHT));
+	public Equation add(Equation equation) {
+		Equation result = this.clone();
+		result.expressions.get(Side.LEFT).add(equation.expressions.get(Side.LEFT).clone());
+		result.expressions.get(Side.RIGHT).add(equation.expressions.get(Side.RIGHT).clone());
+		return result;
 	}
 	
-	public void multiply(Fraction fraction) {
-		for (Expression expression : this.expressions.values()) {
-			expression.multiply(fraction);
-		}
+	public Equation multiply(Fraction fraction) {
+		Equation result = new Equation();
+		result.expressions.get(Side.LEFT).add(this.expressions.get(Side.LEFT).multiply(fraction));
+		result.expressions.get(Side.RIGHT).add(this.expressions.get(Side.RIGHT).multiply(fraction));
+		return result;
 	}
 
 	public Fraction getValue(Side side, String name) {
@@ -51,21 +60,44 @@ public class Equation {
 				return expression.getValue(name);
 			}
 		}
-		return new Fraction(0);
+		return Fraction.ZERO();
 	}
 	
 	public Fraction getValue(Side side) {
 		return this.expressions.get(side).getValue();
+	}
+
+	
+	public void simplify(String name) {
+		for (Expression expression : this.expressions.values()) {
+			expression.simplify(name);
+		}
 	}
 	
 	public void simplify(Side side, String name) {
 		this.expressions.get(side).simplify(name);
 	}
 	
+	public void simplify() {
+		for (Expression expression : this.expressions.values()) {
+			expression.simplify();
+		}
+	}
+	
 	public void simplify(Side side) {
 		this.expressions.get(side).simplify();
 	}
 	
+	public void simplifyAll() {
+		for (Expression expression : this.expressions.values()) {
+			expression.simplifyAll();
+		}
+	}
+	
+	public void simplifyAll(Side side) {
+		this.expressions.get(side).simplifyAll();
+	}
+
 	public Set<String> getNameSet() {
 		Set<String> result = new HashSet<String>();
 		for (Expression expression : this.expressions.values()) {
@@ -93,9 +125,7 @@ public class Equation {
 
 	@Override
 	protected Equation clone() {
-		Equation result = new Equation();
-		result.add(this);
-		return result;
+		return new Equation(this.expressions);
 	}
 
 	@Override

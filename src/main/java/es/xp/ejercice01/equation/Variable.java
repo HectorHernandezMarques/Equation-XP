@@ -15,7 +15,7 @@ public class Variable extends Term {
 	
 	public Variable(int num, int den, String name) {
 		super(num, den);
-		this.name = name;
+		this.name = new String(name);
 	}
 
 	public String getName() {
@@ -30,6 +30,11 @@ public class Variable extends Term {
 	@Override
 	public boolean hasName(Set<String> names) {
 		return names.contains(this.name);
+	}
+
+	@Override
+	public Term multiply(Fraction fraction) {
+		return new Variable(this.getValue().multiply(fraction), this.name);
 	}
 
 	@Override

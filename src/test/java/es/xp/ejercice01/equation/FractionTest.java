@@ -1,19 +1,23 @@
 package es.xp.ejercice01.equation;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-// toString
 
 public class FractionTest {
 
 	@Test
-	public void constructorTest() {
+	public void floatConstructorTest() {
 		assertEquals("(1/2)", new Fraction(0.5f).toString());
 		assertEquals("(3/1)", new Fraction(3.0f).toString());
+	}
+	
+	@Test
+	public void integersConstructorTest() {
+		assertEquals("(1/1)", new Fraction(3, 3).toString());
+		assertEquals("(3/2)", new Fraction(3, 2).toString());
 	}
 	
 	@Test
@@ -23,8 +27,8 @@ public class FractionTest {
 
 		assertFalse(fraction1 == fraction2);
 		assertEquals(fraction1, fraction2);
-		fraction1 = fraction1.multiply(new Fraction(5));
-		assertNotEquals(fraction1, fraction2);
+		
+		assertNotEquals(fraction2, fraction1.multiply(new Fraction(5)));
 	}
 
 	@Test

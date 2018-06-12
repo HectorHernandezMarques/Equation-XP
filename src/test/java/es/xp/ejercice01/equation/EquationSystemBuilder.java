@@ -19,27 +19,25 @@ public class EquationSystemBuilder {
 	}
 	
 	public EquationSystemBuilder term(int num, String name) {
-		this.term(num, 1, name);
-		return this;
+		return this.term(num, 1, name);
 	}
 
 	public EquationSystemBuilder term(int num, int den, String name) {
-		equationBuilder.term(num, den, name);
+		this.equationBuilder.term(num, den, name);
 		return this;
 	}
 
 	public EquationSystemBuilder term(int num) {
-		equationBuilder.term(num, 1);
-		return this;
+		return this.term(num, 1);
 	}
 
 	public EquationSystemBuilder term(int num, int den) {
-		equationBuilder.term(num, den);
+		this.equationBuilder.term(num, den);
 		return this;
 	}
 	
 	public EquationSystemBuilder equals() {
-		equationBuilder.equals();
+		this.equationBuilder.equals();
 		return this;
 	}
 	

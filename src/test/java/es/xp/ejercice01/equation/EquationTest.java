@@ -8,12 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import es.xp.ejercice01.equation.Constant;
-import es.xp.ejercice01.equation.Equation;
-import es.xp.ejercice01.equation.Expression;
-import es.xp.ejercice01.equation.Side;
-import es.xp.ejercice01.equation.Variable;
-
 class EquationTest {
 
 	ExpressionBuilder expressionBuilder;
@@ -21,33 +15,30 @@ class EquationTest {
 	
 	@Test
 	void addTermTest() {
-		Equation equation = new Equation();
-		equation.add(new Variable(5, "x"));
-		equation.add(new Variable(6, "y"));
-		equation.add(new Constant(5));
+		Equation equation = new Equation().add(new Variable(5, "x"))
+										  .add(new Variable(6, "y"))
+										  .add(new Constant(5));
+										  
 		assertEquals("+(5/1)x+(6/1)y+(5/1)=+(5/1)x+(6/1)y+(5/1)",equation.toString());
 	}
 	
 	@Test
 	void addSideTermTest() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		assertEquals("+(6/1)y=+(5/1)x",equation.toString());
+		assertEquals("+(6/1)y=+(5/1)x", new Equation().add(Side.LEFT, new Variable(6, "y"))
+													  .add(Side.RIGHT, new Variable(5, "x"))
+													  .toString());
 	}
 
 	@Test
 	void addEquationTest() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		Equation equation2 = new Equation();
-		equation2.add(new Variable(5, "x"));
-		equation2.add(new Variable(6, "y"));
-		equation2.add(new Constant(5));
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "y"))
+										  .add(Side.RIGHT, new Variable(5, "x"));
 		
-		equation.add(equation2);
-		assertEquals("+(6/1)y+(5/1)x+(6/1)y+(5/1)=+(5/1)x+(5/1)x+(6/1)y+(5/1)",equation.toString());
+		Equation equation2 = new Equation().add(new Variable(5, "x"))
+										   .add(new Variable(6, "y"))
+										   .add(new Constant(5));
+		
+		assertEquals("+(6/1)y+(5/1)x+(6/1)y+(5/1)=+(5/1)x+(5/1)x+(6/1)y+(5/1)", equation.add(equation2).toString());
 	}
 
 	@ParameterizedTest
@@ -63,21 +54,18 @@ class EquationTest {
 		equation2.add(new Variable(6*value, "y"));
 		equation2.add(new Constant(5*value));
 		
-		equation.multiply(new Fraction(value));
-		
-		assertEquals(equation.toString(),equation2.toString());
+		assertEquals(equation2.toString(), equation.multiply(new Fraction(value)).toString());
 	}
 
 	@Test
 	void getVariableValue() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "x"));
-		equation.add(Side.LEFT, new Variable(7, "y"));
-		equation.add(Side.LEFT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		equation.add(Side.RIGHT, new Variable(1, "x"));
-		equation.add(Side.RIGHT, new Constant(2));
-		equation.add(Side.RIGHT, new Constant(5));
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "x"))
+										  .add(Side.LEFT, new Variable(7, "y"))
+										  .add(Side.LEFT, new Variable(2, "y"))
+										  .add(Side.RIGHT, new Variable(5, "x"))
+										  .add(Side.RIGHT, new Variable(1, "x"))
+										  .add(Side.RIGHT, new Constant(2))
+										  .add(Side.RIGHT, new Constant(5));
 		
 		assertEquals(new Fraction(9), equation.getValue(Side.LEFT, "y"));
 		assertEquals(new Fraction(6), equation.getValue(Side.RIGHT, "x"));
@@ -85,29 +73,27 @@ class EquationTest {
 	
 	@Test
 	void getConstantValue() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "x"));
-		equation.add(Side.LEFT, new Variable(7, "y"));
-		equation.add(Side.LEFT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		equation.add(Side.RIGHT, new Variable(1, "x"));
-		equation.add(Side.RIGHT, new Constant(2));
-		equation.add(Side.RIGHT, new Constant(5));
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "x"))
+				  .add(Side.LEFT, new Variable(7, "y"))
+				  .add(Side.LEFT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Variable(5, "x"))
+				  .add(Side.RIGHT, new Variable(1, "x"))
+				  .add(Side.RIGHT, new Constant(2))
+				  .add(Side.RIGHT, new Constant(5));
 		
 		assertEquals(new Fraction(7), equation.getValue(Side.RIGHT));
 	}
 	
 	@Test
 	void simplifyVariableTest() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "x"));
-		equation.add(Side.LEFT, new Variable(7, "y"));
-		equation.add(Side.LEFT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		equation.add(Side.RIGHT, new Variable(1, "x"));
-		equation.add(Side.RIGHT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Constant(2));
-		equation.add(Side.RIGHT, new Constant(5));
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "x"))
+				  .add(Side.LEFT, new Variable(7, "y"))
+				  .add(Side.LEFT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Variable(5, "x"))
+				  .add(Side.RIGHT, new Variable(1, "x"))
+				  .add(Side.RIGHT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Constant(2))
+				  .add(Side.RIGHT, new Constant(5));
 		
 		equation.simplify(Side.LEFT, "x");
 		equation.simplify(Side.RIGHT, "y");
@@ -122,18 +108,32 @@ class EquationTest {
 	
 	@Test
 	void simplifyConstantTest() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "x"));
-		equation.add(Side.LEFT, new Variable(7, "y"));
-		equation.add(Side.LEFT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		equation.add(Side.RIGHT, new Variable(1, "x"));
-		equation.add(Side.RIGHT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Constant(2));
-		equation.add(Side.RIGHT, new Constant(5));
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "x"))
+				  .add(Side.LEFT, new Variable(7, "y"))
+				  .add(Side.LEFT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Variable(5, "x"))
+				  .add(Side.RIGHT, new Variable(1, "x"))
+				  .add(Side.RIGHT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Constant(2))
+				  .add(Side.RIGHT, new Constant(5));
 		
 		equation.simplify(Side.LEFT);
 		assertEquals("+(6/1)x+(7/1)y+(2/1)y=+(5/1)x+(1/1)x+(2/1)y+(2/1)+(5/1)", equation.toString());
+	}
+	
+	@Test
+	void simplifyAllTest() {
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "x"))
+				  .add(Side.LEFT, new Variable(7, "y"))
+				  .add(Side.LEFT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Variable(5, "x"))
+				  .add(Side.RIGHT, new Variable(1, "x"))
+				  .add(Side.RIGHT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Constant(2))
+				  .add(Side.RIGHT, new Constant(5));
+		
+		equation.simplifyAll();
+		assertEquals("+(6/1)x+(9/1)y=+(6/1)x+(2/1)y+(7/1)", equation.toString());
 	}
 
 	private Expression createExpression() {
@@ -147,49 +147,46 @@ class EquationTest {
 
 	@Test
 	void cloneTest() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "x"));
-		equation.add(Side.LEFT, new Variable(7, "y"));
-		equation.add(Side.LEFT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		equation.add(Side.RIGHT, new Variable(1, "x"));
-		equation.add(Side.RIGHT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Constant(2));
-		equation.add(Side.RIGHT, new Constant(5));
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "x"))
+										  .add(Side.LEFT, new Variable(7, "y"))
+										  .add(Side.LEFT, new Variable(2, "y"))
+										  .add(Side.RIGHT, new Variable(5, "x"))
+										  .add(Side.RIGHT, new Variable(1, "x"))
+										  .add(Side.RIGHT, new Variable(2, "y"))
+										  .add(Side.RIGHT, new Constant(2))
+										  .add(Side.RIGHT, new Constant(5));
 		
-		Equation equationClon = equation.clone();
-		assertEquals(equation, equationClon);
-		assertFalse(equation == equationClon);
-		equation.multiply(new Fraction(5));
-		assertNotEquals(equation, equationClon);
+		Equation clon = equation.clone();
+		assertEquals(equation, clon);
+		assertFalse(equation == clon);
+		
+		assertNotEquals(clon, equation.multiply(new Fraction(5)));
 	}
 
 	@Test
 	void toStringTest() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "x"));
-		equation.add(Side.LEFT, new Variable(7, "y"));
-		equation.add(Side.LEFT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		equation.add(Side.RIGHT, new Variable(1, "x"));
-		equation.add(Side.RIGHT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Constant(2));
-		equation.add(Side.RIGHT, new Constant(5));
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "x"))
+				  .add(Side.LEFT, new Variable(7, "y"))
+				  .add(Side.LEFT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Variable(5, "x"))
+				  .add(Side.RIGHT, new Variable(1, "x"))
+				  .add(Side.RIGHT, new Variable(2, "y"))
+				  .add(Side.RIGHT, new Constant(2))
+				  .add(Side.RIGHT, new Constant(5));
 		
 		assertEquals("+(6/1)x+(7/1)y+(2/1)y=+(5/1)x+(1/1)x+(2/1)y+(2/1)+(5/1)", equation.toString());
 	}
 	
 	@Test
 	void invertionTest() {
-		Equation equation = new Equation();
-		equation.add(Side.LEFT, new Variable(6, "x"));
-		equation.add(Side.LEFT, new Variable(7, "y"));
-		equation.add(Side.LEFT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Variable(5, "x"));
-		equation.add(Side.RIGHT, new Variable(1, "x"));
-		equation.add(Side.RIGHT, new Variable(2, "y"));
-		equation.add(Side.RIGHT, new Constant(2));
-		equation.add(Side.RIGHT, new Constant(5));
+		Equation equation = new Equation().add(Side.LEFT, new Variable(6, "x"))
+										  .add(Side.LEFT, new Variable(7, "y"))
+										  .add(Side.LEFT, new Variable(2, "y"))
+										  .add(Side.RIGHT, new Variable(5, "x"))
+										  .add(Side.RIGHT, new Variable(1, "x"))
+										  .add(Side.RIGHT, new Variable(2, "y"))
+										  .add(Side.RIGHT, new Constant(2))
+										  .add(Side.RIGHT, new Constant(5));
 		
 		equation.invert();
 		

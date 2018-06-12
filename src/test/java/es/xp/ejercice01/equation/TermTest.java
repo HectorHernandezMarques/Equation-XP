@@ -20,9 +20,9 @@ public class TermTest {
 	@ValueSource(ints = { 5, 10 })
 	public void multiplyBy10Test(int value) {
 		Term term = new Constant(value);
-		term.multiply(new Fraction(10));
 
-		assertEquals(new Constant(10 * value), term);
+		assertEquals(new Constant(10 * value), term.multiply(new Fraction(10)));
+		assertEquals(new Constant(value), term);
 	}
 
 	@Test

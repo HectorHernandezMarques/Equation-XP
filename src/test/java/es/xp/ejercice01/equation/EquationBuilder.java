@@ -12,39 +12,37 @@ public class EquationBuilder {
 	}
 
 	public EquationBuilder add(Term term) {
-		this.equation.add(side, term);
+		this.equation = this.equation.add(side, term);
 		return this;
 	}
 
 	public EquationBuilder add(List<Term> terms) {
 		for (Term term : terms) {
-			this.equation.add(side, term);
+			this.equation = this.equation.add(side, term);
 		}
 		return this;
 	}
 
 	public EquationBuilder term(int num, String name) {
-		this.term(num, 1, name);
-		return this;
+		return this.term(num, 1, name);
 	}
 	
 	public EquationBuilder term(int num, int den, String name) {
-		this.equation.add(side, new Variable(num, den, name));
-		return this;
+		return this.add(new Variable(num, den, name));
 	}
 	
 	public EquationBuilder term(int num) {
-		this.term(num, 1);
-		return this;
+		return this.term(num, 1);
 	}
 	
 	public EquationBuilder term(int num, int den) {
-		this.equation.add(side, new Constant(num, den));
-		return this;
+		return this.add(new Constant(num, den));
 	}
 
 	public Equation build() {
-		return this.equation.clone();
+		Equation result = this.equation;
+		this.equation = new Equation();
+		return result;
 	}
 
 	public void equals() {
