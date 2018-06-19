@@ -138,14 +138,27 @@ public class Expression {
 		return result;
 	}
 
-	public void apply(String name, Fraction value) {
+	public void apply(String name, Term term) {
 		List<Term> newTerms = new ArrayList<Term>();
-		for (Term term : this.terms) {
-			if (term.hasName(name)) {
-				newTerms.add(new Constant(term.getValue().multiply(value)));
+		for (Term t : this.terms) {
+			if (t.hasName(name)) {
+				newTerms.add(term.multiply(t.getValue()));
 			}
 			else {
-				newTerms.add(term);
+				newTerms.add(t);
+			}
+		}
+		this.terms = newTerms;
+	}
+
+	public void apply(String name, Expression expression) {
+		List<Term> newTerms = new ArrayList<Term>();
+		for (Term t : this.terms) {
+			if (t.hasName(name)) {
+				newTerms.addAll(expression.multiply(t.getValue()).terms);
+			}
+			else {
+				newTerms.add(t);
 			}
 		}
 		this.terms = newTerms;

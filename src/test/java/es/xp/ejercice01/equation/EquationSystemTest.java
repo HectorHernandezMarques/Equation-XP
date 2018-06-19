@@ -8,18 +8,45 @@ public class EquationSystemTest {
 
 	@Test
 	public void reductionMethodTest() {
-		double precission = 0.00001;
-		String name1 = "x";
-		String name2 = "y";
+		String x = "x";
+		String y = "y";
 		EquationSystem equationSystem = new EquationSystemBuilder()
-			.equation().term(2,name1).term(4,name2).equals().term(4)
-			.equation().term(5,name1).term(-9,name2).equals().term(-2)
+			.equation().term(2,x).term(4,y).equals().term(4)
+			.equation().term(5,x).term(-9,y).equals().term(-2)
 			.build();
 		equationSystem.set(new ReductionMethod());
 		equationSystem.resolve();
+		assertEquals("(14/19)", equationSystem.getSolution(x).toString());
+		assertEquals("(12/19)", equationSystem.getSolution(y).toString());
+	}
+	
+	@Test
+	public void reductionMethodTest2() {
+		String x = "x";
+		String y = "y";
+		EquationSystem equationSystem = new EquationSystemBuilder()
+				.equation().term(2,x).equals().term(4).term(-4,y)
+				.equation().term(-9,y).equals().term(-2).term(-5,x)
+				.build();
+		equationSystem.set(new ReductionMethod());
+		equationSystem.resolve();
+		assertEquals("(14/19)", equationSystem.getSolution(x).toString());
+		assertEquals("(12/19)", equationSystem.getSolution(y).toString());
+	}
+	
+	@Test
+	public void subtitutionMethodTest() {
+		String x = "x";
+		String y = "y";
+		EquationSystem equationSystem = new EquationSystemBuilder()
+				.equation().term(2,x).equals().term(4).term(-4,y)
+				.equation().term(-9,y).equals().term(-2).term(-5,x)
+				.build();
+		equationSystem.set(new SubtitutionMethod());
+		equationSystem.resolve();
 		System.out.println(equationSystem.toString());
-		assertEquals("(14/19)", equationSystem.getSolution(name1).toString());
-		assertEquals("(12/19)", equationSystem.getSolution(name2).toString());
+		assertEquals("(14/19)", equationSystem.getSolution(x).toString());
+		assertEquals("(12/19)", equationSystem.getSolution(y).toString());
 	}
 
 }

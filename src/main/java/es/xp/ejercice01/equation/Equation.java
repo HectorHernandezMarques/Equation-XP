@@ -1,7 +1,9 @@
 package es.xp.ejercice01.equation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -66,8 +68,11 @@ public class Equation {
 	public Fraction getValue(Side side) {
 		return this.expressions.get(side).getValue();
 	}
-
 	
+	public Expression getExpression(Side side) {
+		return this.expressions.get(side).clone();
+	}
+
 	public void simplify(String name) {
 		for (Expression expression : this.expressions.values()) {
 			expression.simplify(name);
@@ -133,9 +138,15 @@ public class Equation {
 		return this.expressions.get(Side.LEFT).toString() + "=" + this.expressions.get(Side.RIGHT).toString();
 	}
 
-	public void apply(String name, Fraction value) {
+	public void apply(String name, Term term) {
 		for (Expression expression : this.expressions.values()) {
-			expression.apply(name, value);
+			expression.apply(name, term);
+		}
+	}
+
+	public void apply(String name, Expression expression) {
+		for (Expression e : this.expressions.values()) {
+			e.apply(name, expression);
 		}
 	}
 	
