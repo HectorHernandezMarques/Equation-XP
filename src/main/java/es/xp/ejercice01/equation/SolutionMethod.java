@@ -126,7 +126,7 @@ public abstract class SolutionMethod {
 	}
 
 	protected void simplifyValue(String name) {
-		this.setLastEquation(0, this.getLastEquation(0).multiply(this.getLastEquation(0).getValue(name).getInvert()));
+		this.simplifyValueLastEquation(0, name);
 	}
 
 	protected void simplifyValueLastEquation(int index, String name) {

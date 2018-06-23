@@ -21,6 +21,12 @@ public abstract class Term {
 	public int getDen() {
 		return this.fraction.getDen();
 	}
+	
+	protected void simplifySignum() {
+		if (this.getNum() < 0 && this.getDen() < 0) {
+			this.fraction = this.fraction.multiply(new Fraction(-1, -1));
+		}
+	}
 
 	public boolean hasName(String string) {
 		return false;

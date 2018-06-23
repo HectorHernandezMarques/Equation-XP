@@ -34,7 +34,9 @@ public class Variable extends Term {
 
 	@Override
 	public Term multiply(Fraction fraction) {
-		return new Variable(this.getValue().multiply(fraction), this.name);
+		Term result = new Variable(this.getValue().multiply(fraction), this.name);
+		result.simplifySignum();
+		return result;
 	}
 
 	@Override

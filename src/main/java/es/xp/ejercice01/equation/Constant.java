@@ -16,7 +16,9 @@ public class Constant extends Term {
 
 	@Override
 	public Term multiply(Fraction fraction) {
-		return new Constant(this.getValue().multiply(fraction));
+		Term result = new Constant(this.getValue().multiply(fraction));
+		result.simplifySignum();
+		return result;
 	}
 	
 	@Override
