@@ -24,24 +24,16 @@ public class EqualizationMethod extends SolutionMethod {
 		Expression firstValueExpression = this.getLastEquation(1).getExpression(Side.RIGHT);
 		this.copyLastEquations(1);
 		this.getLastEquation(0).apply(firstName, firstValueExpression);
-
+		this.copyLastEquations(1);
 		
-//		this.getLastEquation(0).simplifyAll();
 		this.moveLastEquation(0, Side.LEFT, secondName);
 		this.moveLastEquation(0, Side.RIGHT);
-		this.copyLastEquations(1);
 		this.simplifyValue(secondName);
-//		this.copyLastEquations(1);
-//		this.moveLastEquation(0, Side.RIGHT);
-//		this.copyLastEquations(1);
-//		this.simplifyValue(secondName);
-//
-//		this.setSolution(secondName, this.getLastEquation(0));
-//		
-//		this.subtituteValue(1, secondName, this.getSolutionValue(secondName));
-//		this.copyLastEquations(1);
-//		this.simplifyValue(firstName);
-//		this.setSolution(firstName, this.getLastEquation(0));
-	}	
 
+		this.setSolution(secondName, this.getLastEquation(0));
+		this.subtituteValue(1, secondName, this.getSolutionValue(secondName));
+		this.copyLastEquations(1);
+		this.simplifyValue(firstName);
+		this.setSolution(firstName, this.getLastEquation(0));
+	}	
 }
