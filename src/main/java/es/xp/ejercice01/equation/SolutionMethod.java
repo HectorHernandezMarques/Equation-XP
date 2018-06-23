@@ -104,16 +104,16 @@ public abstract class SolutionMethod {
 		return this.nameSet;
 	}
 
-	protected void moveLastEquation(int i, Side side, String name) {
-		this.getLastEquation(i).simplifyAll();
-		this.setLastEquation(i, this.getLastEquation(i).add(new Variable(this.getLastEquation(i).getValue(side.next(), name).multiply(-1), name)));
-		this.getLastEquation(i).simplifyAll();
+	protected void moveLastEquation(int index, Side side, String name) {
+		this.getLastEquation(index).simplifyAll();
+		this.setLastEquation(index, this.getLastEquation(index).add(new Variable(this.getLastEquation(index).getValue(side.next(), name).multiply(-1), name)));
+		this.getLastEquation(index).simplifyAll();
 	}
 
-	protected void moveLastEquation(int i, Side side) {
-		this.getLastEquation(i).simplifyAll();
-		this.setLastEquation(i, this.getLastEquation(i).add(new Constant(this.getLastEquation(i).getValue(side.next()).multiply(-1))));
-		this.getLastEquation(i).simplifyAll();
+	protected void moveLastEquation(int index, Side side) {
+		this.getLastEquation(index).simplifyAll();
+		this.setLastEquation(index, this.getLastEquation(index).add(new Constant(this.getLastEquation(index).getValue(side.next()).multiply(-1))));
+		this.getLastEquation(index).simplifyAll();
 	}
 
 	protected void subtituteValue(int originalIndex, String name, Fraction value) {
@@ -127,6 +127,10 @@ public abstract class SolutionMethod {
 
 	protected void simplifyValue(String name) {
 		this.setLastEquation(0, this.getLastEquation(0).multiply(this.getLastEquation(0).getValue(name).getInvert()));
+	}
+
+	protected void simplifyValueLastEquation(int index, String name) {
+		this.setLastEquation(index, this.getLastEquation(index).multiply(this.getLastEquation(index).getValue(name).getInvert()));
 	}
 	
 }
