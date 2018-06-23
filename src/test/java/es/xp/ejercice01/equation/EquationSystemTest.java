@@ -44,7 +44,6 @@ public class EquationSystemTest {
 				.build();
 		equationSystem.set(new SubtitutionMethod());
 		equationSystem.resolve();
-		System.out.println(equationSystem.toString());
 		assertEquals("(14/19)", equationSystem.getSolution(x).toString());
 		assertEquals("(12/19)", equationSystem.getSolution(y).toString());
 	}
