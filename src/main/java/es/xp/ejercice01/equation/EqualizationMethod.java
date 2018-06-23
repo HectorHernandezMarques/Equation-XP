@@ -28,7 +28,7 @@ public class EqualizationMethod extends SolutionMethod {
 		
 //		this.getLastEquation(0).simplifyAll();
 		this.moveLastEquation(0, Side.LEFT, secondName);
-//		this.moveLastEquation(0, Side.RIGHT);
+		this.moveLastEquation(0, Side.RIGHT);
 		this.copyLastEquations(1);
 		this.simplifyValue(secondName);
 //		this.copyLastEquations(1);
