@@ -48,5 +48,20 @@ public class EquationSystemTest {
 		assertEquals("(14/19)", equationSystem.getSolution(x).toString());
 		assertEquals("(12/19)", equationSystem.getSolution(y).toString());
 	}
+	
+	@Test
+	public void equalizationMethodTest() {
+		String x = "x";
+		String y = "y";
+		EquationSystem equationSystem = new EquationSystemBuilder()
+				.equation().term(2,x).equals().term(4).term(-4,y)
+				.equation().term(-9,y).equals().term(-2).term(-5,x)
+				.build();
+		equationSystem.set(new EqualizationMethod());
+		equationSystem.resolve();
+		System.out.println(equationSystem.toString());
+		assertEquals("(14/19)", equationSystem.getSolution(x).toString());
+		assertEquals("(12/19)", equationSystem.getSolution(y).toString());
+	}
 
 }
